@@ -1,0 +1,77 @@
+.toolbarContainer {
+    position: relative;
+    width: fit-content;
+    margin: 0 auto;
+    z-index: 999999;
+}
+.toolbar {
+    display: flex;
+    flex-direction: row;
+    height: 42px;
+    width: fit-content;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+    overflow: hidden;
+}
+.dragBtn {
+    height: 100%;
+    width: 36px;
+    color: darkgray;
+    margin: 0;
+    padding: 0;
+}
+.btn {
+    height: 100%;
+    width: 50px;
+    color: black;
+    margin: 0;
+    padding: 0;
+}
+.material_symbols_outlined {
+    display: inline-block;
+    font-family: 'Material Symbols Outlined';
+    font-size: 24px;
+    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 48;
+    line-height: 1;
+    letter-spacing: normal;
+    vertical-align: middle;
+    -webkit-font-smoothing: antialiased;
+}
+.fontOptions {
+    display: flex;
+}
+.fontOptionsBtn {
+    width: 60px;
+    font-family: ;
+    font-size: 18px;
+    color:black;
+    font-size: 18px;
+    border: 0;
+    border-radius: 0;
+    font-style: inherit;
+    font-feature-settings: inherit;
+    font-variant: inherit;
+    line-height: 1;
+    text-transform: none;
+    cursor: pointer;
+    background-color: transparent;
+}
+.alignOptions {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    right: 0;
+    height: 42px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+    z-index: 99999;
+}
+.alignOption {
+    height: 100%;
+    width: 50px;
+    background-color: transparent;
+    margin: 0;
+    color: black;
+}

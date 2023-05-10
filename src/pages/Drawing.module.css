@@ -1,0 +1,374 @@
+/* ******** */
+/* ******** */
+/* titlebar */
+/* ******** */
+/* ******** */
+/*
+#pageTitleContainer {
+    --background: #c8ffc8;
+}
+.titleInput {
+    --background: transparent;
+    --border-color: transparent;
+    --border-radius: 16px;
+    --border-width: 0;
+    --padding-bottom: 0;
+    --padding-end: 16px;
+    --padding-start: 16px;
+    --padding-top: 0;
+    --placeholder-opacity: .3;
+
+    height: 100%;
+
+    margin: 0;
+
+    border-radius: 0;
+
+    color: seagreen;
+
+    overflow: hidden;
+
+    font-size: 24px;
+    font-weight: 700;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#menuButton {
+    background-color: seagreen;
+    color: #c8ffc8;
+}
+*/
+/* ******** */
+/* ******** */
+/* toolbars */
+/* ******** */
+/* ******** */
+.mainToolbarContainer {
+    --background: ;
+    --color: var(--ion-text-color);
+    --min-height: 0px;
+    --padding-bottom: 0;
+    --padding-end: 0;
+    --padding-start: 0;
+    --padding-top: 0;
+
+    position: absolute;
+    
+    width: 100%;
+
+    margin-top: 8px;
+
+    z-index: 999999;
+}
+.toolbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    height: 48px;
+    width: fit-content;
+
+    margin: 0 auto;
+
+    background-color: var(--ion-background-color);
+
+    border-bottom: 0px solid;
+    border-radius: 16px;
+
+    box-shadow: 0 0 24px rgba(0, 0, 0, .15);
+
+    overflow: hidden;
+}
+.materialSymbol {
+    display: inline-block;
+
+    font-family: 'Material Symbols Outlined';
+    font-size: 20px;
+    font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 48;
+    line-height: 1;
+    letter-spacing: normal;
+    vertical-align: middle;
+    -webkit-font-smoothing: antialiased;
+}
+.toolbarButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 56px;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    background-color: transparent;
+
+    border-right: 0px solid;
+
+    color: inherit;
+
+    font-family: "Figtree";
+}
+.toolbarButton:first-child {
+    border-left: 0px solid;
+}
+.dragBtn {
+    width: 32px;
+}
+
+/* ******************** */
+/* ******************** */
+/* font selection popup */
+/* ******************** */
+/* ******************** */
+.fontsToolbarContainer {
+    --background: ;
+    --color: var(--ion-text-color);
+    --min-height: 0px;
+    --padding-bottom: 0;
+    --padding-end: 0;
+    --padding-start: 0;
+    --padding-top: 0;
+
+    position: relative;
+    
+    width: 100%;
+    padding: 0px;
+
+    z-index: 999999;
+}
+.fontsToolbarContainer .toolbarButton:last-child {
+    border-right: 0;
+}
+.fontOptions {
+    flex: 1;
+    display: flex;
+
+    height: 100%;
+
+    border-right: 0px solid;
+}
+
+.fontOptionsBtn {
+    width: 100%;
+
+    padding: 0 0 0 16px;
+
+    background-color: var(--ion-background-color);
+
+    font-size: 16px;
+    font-style: inherit;
+    font-feature-settings: inherit;
+    font-variant: inherit;
+    line-height: 1;
+    text-transform: none;
+}
+.fontsList {
+    height: 360px;
+    width: fit-content;
+
+    margin: 8px auto 0;
+
+    background-color: var(--ion-background-color);
+
+    border-bottom: 0px solid;
+    border-radius: 16px;
+
+    box-shadow: 0 0 24px rgba(0, 0, 0, .15);
+
+    overflow-y: auto;
+}
+.fontOption {
+    display: block;
+
+    height: 48px;
+    width: 100%;
+
+    padding: 0 48px 0 16px;
+
+    background-color: transparent;
+
+    border-bottom: 0px solid;
+
+    color: var(--ion-text-color);
+
+    font-size: 18px;
+    text-align: left;
+}
+.fontOption:last-child {
+    border-bottom: 0;
+}
+
+/* *********** */
+/* *********** */
+/* align popup */
+/* *********** */
+/* *********** */
+.alignOptionsContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    width: fit-content;
+    height: 48px;
+
+    margin: 8px auto 0;
+
+    background-color: var(--ion-background-color);
+
+    border-bottom: 0px solid;
+    border-radius: 16px;
+
+    box-shadow: 0 0 24px rgba(0, 0, 0, .15);
+}
+.alignOptionsContainer .toolbarButton:last-child {
+    border-right: 0px solid;
+}
+.alignOptions {
+    display: flex;
+    flex-direction: row;
+
+    height: 100%;
+    width: fit-content;
+
+    background-color: transparent;
+    
+    z-index: 99999;
+}
+
+/* ************* */
+/* ************* */
+/* options popup */
+/* ************* */
+/* ************* */
+.optionsContainer {
+    width: fit-content;
+
+    margin: 8px auto 0;
+
+    background-color: var(--ion-background-color);
+
+    border: 0px solid;
+    border-radius: 16px;
+
+    box-shadow: 0 0 24px rgba(0, 0, 0, .15);
+
+    z-index: 9999;
+}
+.optionsOption {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    
+    height: 48px;
+    width: 100%;
+
+    padding: 0 48px 0 16px;
+
+    background-color: transparent;
+
+    border-bottom: 0px solid;
+
+    color: var(--ion-text-color);
+    
+    font-family: "Figtree";
+    font-weight: 500;
+}
+.optionsOption .materialSymbol {
+    margin-right: 12px;
+}
+
+/* ******************* */
+/* ******************* */
+/* cancel save buttons */
+/* ******************* */
+/* ******************* */
+.imageToolbarContainer {
+    --background: ;
+    --color: var(--ion-text-color);
+    --min-height: 0px;
+    --padding-bottom: 0;
+    --padding-end: 0;
+    --padding-start: 0;
+    --padding-top: 0;
+
+    position: relative;
+    
+    width: 100%;
+    padding: 0px;
+
+    background: var(--ion-background-color);
+
+    z-index: 999999;
+}
+
+/* ******************* */
+/* ******************* */
+/* cancel save buttons */
+/* ******************* */
+/* ******************* */
+/*
+.cancelSaveContainer {
+    margin: 0;
+    padding: 0 8px 8px !important;
+
+    background: var(--ion-background-color);
+}
+.menuButton {
+    --border-width: 0;
+    --box-shadow: 0 0 24px rgba(0, 0, 0, .15);
+    --padding-bottom: 0;
+    --padding-end: 16px;
+    --padding-start: 16px;
+    --padding-top: 0;
+    
+    height: 64px;
+    width: 50%;
+
+    margin: 0;
+    padding: 0;
+
+    font-family: "Figtree";
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.cancelSaveContainer .materialSymbol {
+    font-size: 24px;
+    font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 48;
+}
+#cancel {
+    
+}
+#save {
+
+}
+.send {
+    width: 64px;
+
+    background-color: var(--ion-color-dark-contrast);
+
+    color: var(--ion-color-light-contrast);
+}
+
+.send .materialSymbol {
+    margin-left: 0px;
+}
+
+.canvas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+.drawingContent{
+    --overflow: hidden;
+}
+.transform-component-module_wrapper__1_Fgj {
+    display: none !important;
+}
+*/

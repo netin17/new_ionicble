@@ -1,0 +1,343 @@
+/* ******** */
+/* ******** */
+/* titlebar */
+/* ******** */
+/* ******** */
+.titleInput {
+    --background: transparent;
+    --border-color: transparent;
+    --border-radius: 16px;
+    --border-width: 0;
+    --padding-bottom: 0;
+    --padding-end: 16px;
+    --padding-start: 16px;
+    --padding-top: 0;
+    --placeholder-opacity: .3;
+
+    height: 100%;
+
+    margin: 0;
+
+    border-radius: 0;
+
+    overflow: hidden;
+
+    font-size: 24px;
+    font-weight: 700;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ******** */
+/* ******** */
+/* toolbars */
+/* ******** */
+/* ******** */
+.mainToolbarContainer {
+    --background: ;
+    --color: var(--ion-text-color);
+    --min-height: 0px;
+    --padding-bottom: 0;
+    --padding-end: 0;
+    --padding-start: 0;
+    --padding-top: 0;
+
+    position: absolute;
+    
+    width: 100%;
+
+    background-color: black;
+
+    z-index: 999999;
+}
+.toolbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    height: 48px;
+    width: 100%;
+
+    margin-left: 0;
+
+    border-bottom: 2px solid;
+    border-radius: 0px;
+}
+.materialSymbol {
+    display: inline-block;
+
+    font-family: 'Material Symbols Outlined';
+    font-size: 20px;
+    font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 48;
+    line-height: 1;
+    letter-spacing: normal;
+    vertical-align: middle;
+    -webkit-font-smoothing: antialiased;
+}
+.toolbarButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 56px;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    background-color: var(--ion-background-color);
+
+    border-right: 2px solid;
+
+    color: inherit;
+
+    font-family: "Figtree";
+}
+.toolbarButton:first-child {
+    border-left: 0px solid;
+}
+.dragBtn {
+    width: 32px;
+}
+
+/* ******************** */
+/* ******************** */
+/* font selection popup */
+/* ******************** */
+/* ******************** */
+.fontsToolbarContainer {
+    --background: ;
+    --color: var(--ion-text-color);
+    --min-height: 0px;
+    --padding-bottom: 0;
+    --padding-end: 0;
+    --padding-start: 0;
+    --padding-top: 0;
+
+    position: relative;
+    
+    width: 100%;
+    padding: 0px;
+
+    z-index: 999999;
+}
+.fontsToolbarContainer .toolbarButton:last-child {
+    border-right: 0;
+}
+.fontOptions {
+    flex: 1;
+    display: flex;
+
+    height: 100%;
+
+    border-right: 2px solid;
+}
+
+.fontOptionsBtn {
+    width: 100%;
+
+    padding: 0 4px;
+
+    background-color: var(--ion-background-color);
+
+    font-size: 16px;
+    font-style: inherit;
+    font-feature-settings: inherit;
+    font-variant: inherit;
+    line-height: 1;
+    text-transform: none;
+}
+.fontsList {
+    height: 360px;
+    width: 100%;
+
+    overflow-y: auto;
+
+    background-color: var(--ion-background-color);
+
+    border-bottom: 2px solid;
+}
+.fontOption {
+    height: 48px;
+    width: 100%;
+
+    margin: 0;
+    padding: 0 16px;
+
+    background-color: transparent;
+
+    border-bottom: 2px solid;
+
+    color: var(--ion-text-color);
+
+    font-size: 18px;
+    text-align: left;
+}
+.fontOption:last-child {
+    border-bottom: 0;
+}
+
+/* *********** */
+/* *********** */
+/* align popup */
+/* *********** */
+/* *********** */
+.alignOptionsContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    width: 100%;
+    height: 48px;
+
+    border-bottom: 2px solid;
+}
+.alignOptions {
+    display: flex;
+    flex-direction: row;
+
+    height: 100%;
+    width: fit-content;
+
+    background-color: var(--ion-background-color);
+    
+    z-index: 99999;
+}
+
+/* ************* */
+/* ************* */
+/* options popup */
+/* ************* */
+/* ************* */
+.optionsContainer {
+    width: 100%;
+
+    background-color: var(--ion-background-color);
+
+    border: 0px solid;
+    border-radius: 0;
+
+    z-index: 9999;
+}
+.optionsOption {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    
+    height: 48px;
+    width: 100%;
+
+    padding: 0 16px;
+
+    background-color: transparent;
+
+    border-bottom: 2px solid;
+
+    color: var(--ion-text-color);
+    
+    font-family: "Figtree";
+    font-weight: 500;
+}
+.optionsOption .materialSymbol {
+    margin-right: 12px;
+}
+
+/* ******************* */
+/* ******************* */
+/* cancel save buttons */
+/* ******************* */
+/* ******************* */
+.imageToolbarContainer {
+    --background: ;
+    --color: var(--ion-text-color);
+    --min-height: 0px;
+    --padding-bottom: 0;
+    --padding-end: 0;
+    --padding-start: 0;
+    --padding-top: 0;
+
+    position: relative;
+    
+    width: 100%;
+    padding: 0px;
+
+    background: var(--ion-background-color);
+
+    z-index: 999999;
+}
+
+/* ******************* */
+/* ******************* */
+/* cancel save buttons */
+/* ******************* */
+/* ******************* */
+.cancelSaveContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0;
+
+    height: 64px;
+    width: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    background: var(--ion-background-color);
+
+    border-top: 2px solid;
+    border-radius: 0px;
+
+    overflow: hidden;
+}
+.cancelSaveContainer button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    font-family: "Figtree";
+    font-size: 18px;
+    font-weight: 500;
+}
+.cancelSaveContainer .materialSymbol {
+    font-size: 24px;
+    font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 48;
+}
+.cancel {
+    width: 64px;
+
+    background-color: red;
+
+    color: white;
+}
+.save {
+    flex: 1;
+
+    
+    background-color: blue;
+
+    border-left: 2px solid var(--ion-color-light-contrast);
+    border-right: 2px solid var(--ion-color-light-contrast);
+
+    
+    color: white;
+}
+.send {
+    width: 64px;
+
+    background-color: var(--ion-color-dark-contrast);
+
+    color: var(--ion-color-light-contrast);
+}
+
+.send .materialSymbol {
+    margin-left: 0px;
+}

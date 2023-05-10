@@ -1,0 +1,7 @@
+{
+  "name": "ionicble",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

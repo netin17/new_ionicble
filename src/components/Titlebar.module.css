@@ -1,0 +1,68 @@
+.tileInput{
+    text-transform: none;
+    margin-top: 6px;
+    height: 50px;
+    padding-left: 10px !important;
+    background-color: white;
+    border-radius: 12px;
+    font-family: "Montserrat";
+    font-size: 24px;
+    font-weight: 900;
+    color: black;
+   text-transform: uppercase;
+    --placeholder-color:#D6D6D6;
+    --placeholder-opacity: 1;
+}
+.btn {
+
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+    font-weight: 900;
+    font-family: "Montserrat";
+    --color:black;
+    --background: white;
+    --border-radius: 10px;
+    --box-shadow: -5px 5px 0 black;
+
+}
+
+.material_symbols_outlined {
+
+    font-size: 28px;
+    font-variation-settings: 'FILL' 0, 'wght' 700, 'GRAD' 0, 'opsz' 48;
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+}
+
+.colBtn {
+
+    z-index: 9999999;
+}
+
+
+
+
+@media (max-width: 768px) {
+    .tileInput {
+        margin-left: 35px;
+        width: 88%;
+        margin-top: 8px;
+    }
+    .btn {
+        margin-left: 10px;
+        font-size: 16px;
+        margin-top: 7px;
+
+    }
+}

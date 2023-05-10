@@ -1,0 +1,72 @@
+.linkBox {
+    text-decoration: none;
+    color: black;
+}
+
+.sizeTitle {
+    font-weight: 900;
+    font-family: "Montserrat";
+    font-size: 18px;
+    color:black;
+    text-align: center;
+    padding-top: 35px;
+    padding-bottom: 20px;
+    padding-inline: 0px;
+}
+
+
+.handleSizesBox {
+
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+
+}
+.handleItem {
+
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: transparent;
+
+}
+.overHidden {
+    --overflow: hidden;
+}
+.sizebg {
+    --background:#E3E3E3 !important;
+    background-color: #E3E3E3 !important;
+}
+.boxTitle  {
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: 'Montserrat';
+    display: flex;
+    justify-content: center;
+
+}
+@media (max-width: 768px) {
+
+}
+@media (max-width: 575px) {
+
+
+
+}
+
+@media (max-width: 375px) {
+
+
+
+}
