@@ -16,6 +16,8 @@ import { ellipsisVertical} from 'ionicons/icons';
 import Categories from '../components/Categories';
 import ExploreContainer from '../components/ExploreContainer';
 import { Toolbar } from "../components/Toolbar";
+import { Titlebar } from "../components/Titlebar";
+import { Menubutton } from "../components/Menubutton";
 import {
   TransformWrapper,
   TransformComponent ,
@@ -64,6 +66,35 @@ const Drawing: React.FC = () => {
   let history = useHistory();
   const ref:any = useRef<ReactZoomPanPinchRef | null>(null);
 
+
+  canvas?.on({
+    // 'selection:updated': HandleElement,
+    'selection:created': handleSelection
+});
+
+canvas?.on({
+    'after:render': (event:any) => {
+        if(canvas?.getActiveObject()?.isEditing) {
+            setShowButtons(false);
+        }
+    }
+});
+
+canvas?.on({
+    // 'selection:updated': HandleElement,
+    'before:selection:cleared': handleDeselecting
+});
+
+function handleSelection(obj:any){
+    //Handle the object here
+    setDisablePanning(true);
+}
+
+function handleDeselecting(obj:any){
+    //Handle the object here
+    setDisablePanning(false);
+    setShowButtons(true);
+}
 
   useEffect(() => {
 
@@ -162,6 +193,15 @@ const toggleCancel = () => {
         canvas.renderAll()
     }
 }
+const yesCancel = () => {
+        //history.replace("/");
+        if(isCanvasDesign?.designJson ) {
+            presentToast('top','Changes not saved')
+            history.go(-1);
+        } else{
+            history.go(-2);
+        }
+    }
 
 const presentToast = (position:any, message:any) => {
   present({
@@ -170,7 +210,37 @@ const presentToast = (position:any, message:any) => {
     position: position
   });
 };
+function useOutsideAlerter(ref:any) {
+  useEffect(() => {
 
+      function handleClickOutside(event:any) {
+          if (ref.current && !ref.current.contains(event.target)) {
+              canvas.discardActiveObject()
+              canvas.renderAll()
+          }
+      }
+      // Bind the event listener
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+          // Unbind the event listener on clean up
+          document.removeEventListener("mousedown", handleClickOutside);
+      };
+  }, [ref , canvas]);
+}
+
+const wrapperRef = useRef(null);
+useOutsideAlerter(wrapperRef);
+
+
+// panning two finger Detect
+
+
+useEffect(()=>{
+  setShowButtons(true);
+  // twoFingerPan()
+} , [])
+
+const [menuType, setMenuType] = useState('overlay');
   const save_canvas=()=>{
     console.log(selectedCategories)
   }
@@ -199,6 +269,7 @@ const presentToast = (position:any, message:any) => {
           <Categories setSelectedCategories={setSelectedCategories} selectedCategories={selectedCategories} />
         </IonContent>
       </IonPopover>
+                        {showButtons && <Titlebar toggleCancel={toggleCancel} />}
         {showButtons && <Toolbar />}
         <div className={drawing.canvas} onClick={handleDeactivateObjClick}>
                             <TransformWrapper
@@ -215,7 +286,8 @@ const presentToast = (position:any, message:any) => {
 
                             </TransformWrapper>
                         </div>
-      <IonButton onClick={save_canvas}>save</IonButton>
+      {/* <IonButton onClick={save_canvas}>save</IonButton> */}
+      {showButtons && <Menubutton toggleCancel={toggleCancel} selectedCategories={selectedCategories} />}
       </IonContent>
       <IonRouterOutlet hidden />
     </IonPage>

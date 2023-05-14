@@ -85,7 +85,7 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
       <IonList>
         {categories?.map((cat, index) => {
           return (
-            <IonItem>
+            <IonItem key={index}>
               <IonCheckbox
                 value={cat.name}
                 checked={selectedCategories.includes(cat.name)}

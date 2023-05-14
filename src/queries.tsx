@@ -28,27 +28,50 @@ export const SqllileQueries = () => {
   }, [db]);
 
   const insertCategory = async (name: string) => {
-    console.log("SDfsadsadaasdasdadsfsdf")
     if (db) {
-        console.log("SDfdsfsdf")
       await db.run('INSERT INTO catagories (name) VALUES (?)', [name]);
-    //   let res: any = await db.query("SELECT * FROM catagories");
-    //   console.log(res.values);
     }
   }; 
 
   const getCategories = async () => {
     if (db) {
-        console.log("gjgjghjghjghjgjg")
         const qValues : any= await db.query('SELECT * FROM catagories');
         return qValues?.values
     } 
   };
 
+  const saveCanvas = async (canvasparams:any) => {
+    console.log("DSfsfs")
+    if (db) {
+      await db.run('INSERT INTO drawing (name,canvasColor,canvasHeight,canvasWidth,liked,designId,designJson,thumbnail,categories) VALUES (?,?,?,?,?,?,?,?,?)',
+       [
+        canvasparams?.name,
+        canvasparams?.canvasColor,
+        canvasparams?.canvasHeight,
+        canvasparams?.canvasWidth,
+        canvasparams?.liked,
+        canvasparams?.designId,
+        canvasparams?.designJson,
+        canvasparams?.thumbnail,
+        canvasparams?.categories
+      ]
+       );
+    } 
+  };
+
+  const getCanvases = async()=>{
+    if (db) {
+      const qValues : any= await db.query('SELECT * FROM drawing');
+      return qValues?.values
+  } 
+  }
+
   return {
     initialize,
     insertCategory,
     getCategories,
+    saveCanvas,
+    getCanvases,
     isopen
   };
 };

@@ -62,7 +62,7 @@ const App: React.FC = () => {
             designId TEXT,
             designJson TEXT,
             thumbnail TEXT,
-            category TEXT
+            categories TEXT
           )
         `);
           

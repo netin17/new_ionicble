@@ -27,14 +27,14 @@ const Titlebar  = (props:any) => {
     }
     return (
         <>
-            <IonToolbar id={drawing.pageTitleContainer} className={app.pageTitleContainer} color="primary">   
+            {/* <IonToolbar id={drawing.pageTitleContainer} className={app.pageTitleContainer} color="primary">   
                 <IonTitle>
                     Design Editor
                 </IonTitle>
                 <IonButtons slot="end">
                     <IonMenuButton></IonMenuButton>
                 </IonButtons>
-            </IonToolbar>
+            </IonToolbar> */}
 
             <IonToolbar color="tertiary">
                 <IonItem>
