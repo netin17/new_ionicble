@@ -1,0 +1,42 @@
+.cancelBg {
+    --ion-background-color:#333333;
+}
+.headWarning{
+    color:white;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+}
+.btnCanceNo {
+    letter-spacing: 0px;
+    --background: white;
+    width: 280px;
+    --border-radius: 12px;
+    font-weight: 900;
+    height: 60px;
+    font-size: 15px;
+    --box-shadow: -5px 5px 0 black;
+    --color: black;
+}
+.btnCanceYes {
+    letter-spacing: 0px;
+    --background: #ff2c00;
+
+    --border-radius: 12px;
+    font-weight: 900;
+    height: 60px;
+    font-size: 15px;
+    --box-shadow: -5px 5px 0 black;
+    --color: white;
+}
+.cancelRowOne {
+    margin-top: 50%;
+    margin-left: 5px;
+}
+.cancelRowTwo {
+    margin-top: 40px;
+    margin-left: 5px;
+}
+.cancelRowThree {
+    margin-left: 5px;
+}

@@ -1,0 +1,160 @@
+.thumbnailContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 16px 0;
+}
+.favoritesButton {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+/*
+#pageTitleContainer {
+    --background: var(--ion-background-color);
+    color: var(--ion-text-color);
+}
+#pageTitle {
+    color: var(--ion-text-color);
+}
+#menuButton {
+    background-color: var(--ion-background-color);
+
+    color: var(--ion-text-color);
+}
+#menuButton span {
+    color: var(--ion-text-color);
+}
+.pageSearchbarContainer {
+    border-bottom: 2px solid;
+}
+.searchbar {
+    --border-radius: 0;
+    --box-shadow: 0;
+    --cancel-button-color: var(--ion-text-color);
+    --clear-button-color: var(--ion-text-color);
+    --color: var(--ion-text-color);
+    --icon-color: var(--ion-text-color);
+
+    padding: 0 !important;
+
+    font-family: "Figtree";
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.savedDesignsContainer {
+    --background: var(--ion-color-light-shade);
+    --padding-bottom: 96px;
+
+}
+.savedDesignCard {
+    --color: var(--ion-text-color);
+    margin: 0 0 16px;
+
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+    border-radius: 0;
+
+    box-shadow: none;
+}
+.savedDesignCard:first-child {
+    margin-top: -2px;
+}
+
+.thumbnail {
+    border-left: 0px solid;
+    border-right: 0px solid;
+}
+.cardLikeButton {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 32px;
+    width: 32px;
+    background-color: var(--ion-background-color);
+    border-right: 2px solid;
+    border-bottom: 2px solid;
+}
+ion-card-header {
+    padding: 0;
+}
+.savedDesignTitleContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 48px;
+    width: 100%;    
+
+    border-top: 2px solid;
+}
+.savedDesignTitle {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    height: 100%;
+
+    margin: 0;
+    padding: 0 12px;
+
+    border-right: 2px solid;
+
+    overflow: hidden;
+
+    font-size: 18px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.cardSendButton {
+    --border-radius: 0;
+    --box-shadow: none;
+    --padding-bottom: 0;
+    --padding-end: 0;
+    --padding-start: 0;
+    --padding-top: 0;
+
+    flex-shrink: 0;
+
+    height: 100%;
+    width: 56px;
+
+    margin: 0;
+    padding: 0;
+
+    background-color: var(--ion-background-color);
+
+    border-right: 2px solid;
+}
+.cardSendButton span {
+    color: var(--ion-text-color);
+}
+.cardOptionsButton {
+    --border-radius: 0;
+    --box-shadow: none;
+    --padding-bottom: 0;
+    --padding-end: 0;
+    --padding-start: 0;
+    --padding-top: 0;
+
+    flex-shrink: 0;
+
+    height: 100%;
+    width: 56px;
+
+    margin: 0;
+    padding: 0;
+
+    background-color: var(--ion-background-color);
+
+    border-right: 0px solid var(--ion-text-color);
+    border-top: 0px solid var(--ion-text-color);
+}
+.cardOptionsButton span {
+    color: var(--ion-text-color);
+}
+*/

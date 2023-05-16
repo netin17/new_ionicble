@@ -30,9 +30,7 @@ const Menubutton = (props:any) => {
       }, [isopen])
 
     const storeCanvas = async () => {
-console.log(canvas.toJSON())
         if (isCanvasDesign) {
-
             // let getID = isCanvasDesign.designId;
 
             // let localArray: [] = JSON.parse(await storage.get('myDesign') || '[]');
@@ -54,8 +52,8 @@ console.log(canvas.toJSON())
             let thumbnail: any = canvas.toDataURL();
             let designId: any = Math.random();
             let canvasColor: any = canvas.backgroundColor;
-            let canvasWidth:any = selectedSize.width;
-            let canvasHeight:any = selectedSize.height;
+            let canvasWidth:any = canvas.width;
+            let canvasHeight:any = canvas.height;
             let canvasDesign = {
                 designJson,
                 thumbnail,
@@ -67,12 +65,12 @@ console.log(canvas.toJSON())
                 canvasHeight,
                 categories: props?.selectedCategories.toString()
             }
-
-            let tempArray: any = [];
-            console.log(isopen)
+            //let tempArray: any = [];
             if(db){
-                saveCanvas(canvasDesign)
-                console.log(canvasDesign)
+              saveCanvas(canvasDesign); 
+                             
+              history.push('/tab4');
+                               
             }
            
             // if (await storage.get('myDesign')) {
@@ -89,6 +87,7 @@ console.log(canvas.toJSON())
         // presentToast('top','Design saved successfully')
         // canvas.clearHistory();
     }
+
     const presentToast = (position:any, message:any) => {
         present({
             message: message,

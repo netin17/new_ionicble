@@ -15,6 +15,7 @@ import {
 import { ellipsisVertical} from 'ionicons/icons';
 import Categories from '../components/Categories';
 import ExploreContainer from '../components/ExploreContainer';
+import { CancelWarning } from "../components/CancelWarning";
 import { Toolbar } from "../components/Toolbar";
 import { Titlebar } from "../components/Titlebar";
 import { Menubutton } from "../components/Menubutton";
@@ -198,8 +199,10 @@ const yesCancel = () => {
         if(isCanvasDesign?.designJson ) {
             presentToast('top','Changes not saved')
             history.go(-1);
+           
         } else{
-            history.go(-2);
+            history.push('/tab4');
+            
         }
     }
 
@@ -245,6 +248,10 @@ const [menuType, setMenuType] = useState('overlay');
     console.log(selectedCategories)
   }
   return (
+    <>
+    {cancelToggle &&
+    <CancelWarning toggleCancel={toggleCancel} yesCancel={yesCancel} isOpen={cancelToggle} />
+    }
     <IonPage>
       <IonHeader>
         <IonToolbar>
@@ -291,6 +298,8 @@ const [menuType, setMenuType] = useState('overlay');
       </IonContent>
       <IonRouterOutlet hidden />
     </IonPage>
+    </>
+   
   );
 };
 

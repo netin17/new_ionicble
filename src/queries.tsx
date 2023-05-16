@@ -29,33 +29,27 @@ export const SqllileQueries = () => {
 
   const insertCategory = async (name: string) => {
     if (db) {
+      //await db.open();
       await db.run('INSERT INTO catagories (name) VALUES (?)', [name]);
+      await db.close();
     }
   }; 
 
   const getCategories = async () => {
-    if (db) {
-        const qValues : any= await db.query('SELECT * FROM catagories');
-        return qValues?.values
+    if (db) {      
+        const qValues : any= await db.query('SELECT * FROM catagories');     
+        return qValues?.values;        
     } 
   };
 
   const saveCanvas = async (canvasparams:any) => {
-    console.log("DSfsfs")
     if (db) {
+      
+      await db.open();           
       await db.run('INSERT INTO drawing (name,canvasColor,canvasHeight,canvasWidth,liked,designId,designJson,thumbnail,categories) VALUES (?,?,?,?,?,?,?,?,?)',
-       [
-        canvasparams?.name,
-        canvasparams?.canvasColor,
-        canvasparams?.canvasHeight,
-        canvasparams?.canvasWidth,
-        canvasparams?.liked,
-        canvasparams?.designId,
-        canvasparams?.designJson,
-        canvasparams?.thumbnail,
-        canvasparams?.categories
-      ]
-       );
+      [ canvasparams?.name, canvasparams?.canvasColor, canvasparams?.canvasHeight, canvasparams?.canvasWidth, canvasparams?.liked, canvasparams?.designId, canvasparams?.designJson, canvasparams?.thumbnail, canvasparams?.categories]);
+      await db.close();
+    
     } 
   };
 
@@ -66,12 +60,36 @@ export const SqllileQueries = () => {
   } 
   }
 
+  const getCanvasesByCategories = async( categories: string)=>{
+    if (db) {
+      if(categories === 'all'){
+
+        const qValues : any= await db.query("SELECT * FROM drawing");
+        return qValues?.values
+
+      }else if(categories === 'favorites'){
+
+        const qValues : any= await db.query("SELECT * FROM drawing WHERE liked= ?", [1]);
+        return qValues?.values
+
+      }else{
+
+        const qValues : any= await db.query("SELECT * FROM drawing WHERE categories= ?", [categories]);
+        return qValues?.values
+
+      }
+      
+      
+  } 
+  }
+
   return {
     initialize,
     insertCategory,
     getCategories,
     saveCanvas,
     getCanvases,
+    getCanvasesByCategories,
     isopen
   };
 };
