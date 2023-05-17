@@ -1,0 +1,73 @@
+ion-modal#example-modal {
+    --height: 50%;
+    --border-radius: 16px;
+    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+  
+  ion-modal#example-modal::part(backdrop) {
+    background: rgb(30 32 34);
+    opacity: 1;
+  }
+  
+  ion-modal#example-modal ion-toolbar {
+    --background:rgb(243 243 243);
+    --color: white;
+  }
+  .pageSearchbarContainer{
+    padding: 10px 0px;
+  }
+  .searchbar{
+    --background:"red";
+    --backgroundColor:"red"
+  }
+  ion-searchbar{
+    --icon-color: var (--ion-color-primary);
+    --box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    --background:"red";
+    --backgroundColor:"red"
+  
+}
+ion-searchbar.custom {
+    --background: #fff;
+    --color: #000;
+    --placeholder-color: #000;
+    --icon-color: #000;
+    --clear-button-color: #000;
+    --border-radius: 4px;
+    padding-bottom: 0;
+  }
+
+  ion-buttons#open-modal{
+    padding-top: 5px;
+    justify-content: flex-end;
+  
+  }
+
+  .cardSendButton {
+    --border-radius: 0;
+    --box-shadow: none;
+    --padding-bottom: 0;
+    --padding-end: 0;
+    --padding-start: 0;
+    --padding-top: 0;
+
+    flex-shrink: 0;
+
+    height: 100%;
+    width: 56px;
+
+    margin: 0;
+    padding: 0;
+
+    background-color: var(--ion-background-color);
+
+    border-right: 2px solid;
+}
+.cardSendButton span {
+    color: var(--ion-text-color);
+}
+
+ .header{
+        display: flex;
+        justify-content: space-between;
+    }

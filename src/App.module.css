@@ -8,7 +8,13 @@
     vertical-align: middle;
     -webkit-font-smoothing: antialiased;
 }
+.menuTitleContainer {
+    --background: var(--ion-color-light-contrast);
 
+    border-bottom: 2px solid;
+
+    color: var(--ion-text-color);
+}
 /*
 ion-tabs {
     padding: 8px;
