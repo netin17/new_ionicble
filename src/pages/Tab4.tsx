@@ -79,7 +79,7 @@ const Tab4: React.FC = () => {
 
 
   const { db } = useSqlite();
-  const { getCategories, getCanvases, isopen } = SqllileQueries();
+  const { getCategories, getCanvases,LikeUnlikeCanvas, isopen } = SqllileQueries();
   const [categories, setCategories] = useState<Category[]>([]);
   const [canvases, setCanvases] = useState([]);
   const [currentCategory, setcurrentCategory] = useState<string>();
@@ -94,6 +94,7 @@ const Tab4: React.FC = () => {
   const [isDeleteDesign, setDeleteDesign]: any = useState();
   const [isDesignHome, setDesignHome]: any = useState(true);
   const [thumbnail, setThumbnail]: any = useState([]);
+  const [result, setResult]: any = useState([]);
   const { setColorModeIcon }: any = useContext(CanvasStore);
   const { setCanvasDesign }: any = useContext(CanvasStore);
   const { isTitleInput, setTitleInput }: any = useContext(CanvasStore);
@@ -109,7 +110,7 @@ const Tab4: React.FC = () => {
         if (isopen) {
           categoriesList()
           drawingList()
-
+          
         }
       } catch (err) {
         console.log(err);
@@ -188,7 +189,7 @@ const Tab4: React.FC = () => {
     let canvas = await getCanvases();
     console.log(canvas);
     setCanvases(canvas);
-
+    setcurrentCategory('all')
     if (canvas.length == 0) {
       setDesignHome(false)
     } else {
@@ -238,44 +239,42 @@ const Tab4: React.FC = () => {
   // };
 
   //Filter the "canvases" data by using array filter function and set into empty array result as per selected category from segement.
-  let result = [];
-
+  
+useEffect(()=>{
   if (currentCategory === 'all' || typeof currentCategory == "undefined") {
     //setQuery(undefined);
-    result = canvases;
+    console.log(canvases)
+     setResult(canvases);
     console.log(result);
 
   } else if (currentCategory === 'favorites') {
     //setQuery('');
-    result = canvases?.filter(canvase => canvase['liked'] === 1);
-    console.log(result);
+   let filter= canvases?.filter(canvase => canvase['liked'] === 1);
+   setResult(filter)
 
   } else {
     //setQuery('');
-    result = canvases?.filter(canvase => canvase['categories'] == currentCategory);
-    console.log(result);
+   let filter = canvases?.filter(canvase => canvase['categories'] == currentCategory);
+   setResult(filter)
   }
 
-  // Searching AS per 3 dots searching input.
   if (query) {
     console.log(query);
     //let canvasesObj = Object.assign({}, canvases);
-    result = canvases?.filter(canvase => canvase['name'] == query);
-    console.log(result)
+    let filter = canvases?.filter(canvase => canvase['name'] == query);
+    setResult(filter)
     dismiss();
 
   }
-  //  console.log('--------------------------------------');
-  //  console.log(query);
-  //  console.log('--------------------------------------');
 
-  // Shorting By "New","Old","A-Z","Z-A"
+
   if (shorting) {
     let shortingArray = [];
     shortingArray = result;
 
     if (shorting == 'new') {
-      result = shortingArray.slice(0).reverse().map(element => { return element; });
+     let filter = shortingArray.slice(0).reverse().map((element: unknown) => { return element; });
+     setResult(filter)
     }
 
     if (shorting == 'old') {
@@ -287,12 +286,35 @@ const Tab4: React.FC = () => {
     }
 
     if (shorting == 'Z') {
-      result = result;
+      setResult(result);
     }
 
   }
+},[currentCategory, query, shorting])
+  
+
+  // Searching AS per 3 dots searching input.
+  
+  //  console.log('--------------------------------------');
+  //  console.log(query);
+  //  console.log('--------------------------------------');
+
+  // Shorting By "New","Old","A-Z","Z-A"
+  
 
 
+  const like_design=async(id:Number,status:Number)=>{
+console.log(id, status)
+
+
+await LikeUnlikeCanvas(id, status)
+let index:number=result.findIndex((x:any)=>x.id==id);
+if(index != -1){
+  result[index].liked=status;
+  setResult((oldvalues:any)=>[...oldvalues, oldvalues[index].liked=status])
+  console.log("result", result)
+}
+  }
   //If result array is empty then set by default all. 
   // if(result.length === 0){
   //   result =  canvases;
@@ -405,7 +427,7 @@ const Tab4: React.FC = () => {
                 {
                   isDesignHome ? (
 
-                    result?.map((design: any, index) => {
+                    result?.map((design: any, index:number) => {
                       return (
                         <>
                           {/* <ThumbnailCards val={index} key={index} design={design} loadCanvas={drawingList} /> */}
@@ -419,11 +441,12 @@ const Tab4: React.FC = () => {
 
                               {/* <canvas hidden ref={canvasdesign} height={design.canvasHeight} width={design.canvasWidth} /> */}
 
-                              <IonButton className={home.favoritesButton}>
-                                <span className={app.materialSymbol}>favorite</span>
-                              </IonButton>
+                              
                             </div>
-
+                            <IonButton className={home.favoritesButton} onClick={()=>{like_design(design.id, design.liked==1 ? 0 : 1)}}>
+                                <span className={app.materialSymbol}>favorite</span>
+                                {design.liked==1 ? 'liked': 'unliked'}
+                              </IonButton>
 
                             <div >
                               <IonToolbar className={home.savedDesignTitleContainer}>

@@ -64,7 +64,7 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
   const onWillDismiss = async (ev: CustomEvent<OverlayEventDetail>) => {
     if (ev.detail.role === 'confirm') {
       await insertCategory(ev.detail.data)
-      categoriesList()
+     await categoriesList()
     }
   }
   const handleCheckboxChange = (e: CustomEvent<CheckboxChangeEventDetail>, category: string) => {
