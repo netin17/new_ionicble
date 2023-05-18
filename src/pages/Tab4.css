@@ -71,3 +71,21 @@ ion-searchbar.custom {
         display: flex;
         justify-content: space-between;
     }
+ion-content.card_outer{
+  padding: 30px;
+}
+.card_outer ion-card{
+  margin: 30px;
+}
+.cate_wrapper{
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.card_outer ion-toolbar{
+  --background:"#ffff"
+}
+.card_outer ion-toolbar{
+  padding:10px;
+}

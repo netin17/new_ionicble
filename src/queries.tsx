@@ -36,8 +36,10 @@ export const SqllileQueries = () => {
   }; 
 
   const getCategories = async () => {
-    if (db) {      
-        const qValues : any= await db.query('SELECT * FROM catagories');     
+    if (db) {   
+      // await db.open();    
+        const qValues : any= await db.query('SELECT * FROM catagories'); 
+      //  await db.close();    
         return qValues?.values;        
     } 
   };
@@ -48,6 +50,16 @@ export const SqllileQueries = () => {
       await db.open();           
       await db.run('INSERT INTO drawing (name,canvasColor,canvasHeight,canvasWidth,liked,designId,designJson,thumbnail,categories) VALUES (?,?,?,?,?,?,?,?,?)',
       [ canvasparams?.name, canvasparams?.canvasColor, canvasparams?.canvasHeight, canvasparams?.canvasWidth, canvasparams?.liked, canvasparams?.designId, canvasparams?.designJson, canvasparams?.thumbnail, canvasparams?.categories]);
+      await db.close();
+    
+    } 
+  };
+
+  const updateCanvas = async (id:any, canvasparams:any) => {
+    if (db) {
+      await db.open(); 
+      let data = [canvasparams?.name, canvasparams?.canvasColor, canvasparams?.canvasHeight, canvasparams?.canvasWidth, canvasparams?.liked, canvasparams?.designId, canvasparams?.designJson, canvasparams?.thumbnail, canvasparams?.categories];
+      await db.run(`UPDATE drawing SET name = ?, canvasColor = ?, canvasHeight = ?, canvasWidth = ?, liked = ?, designId = ?, designJson = ?, thumbnail = ?, categories = ? WHERE id = ${id}`, data);
       await db.close();
     
     } 
@@ -90,6 +102,7 @@ export const SqllileQueries = () => {
     saveCanvas,
     getCanvases,
     getCanvasesByCategories,
+    updateCanvas,
     isopen
   };
 };

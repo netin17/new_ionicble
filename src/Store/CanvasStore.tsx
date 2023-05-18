@@ -61,6 +61,7 @@ export function StoreContext({ children }:any) {
 
     const [isCanvasDesign , setCanvasDesign ] = useState(null);
     const [isTitleInput , setTitleInput ] = useState("");
+    const [isIdInput , setIdInput ] = useState("");
     const [isDeleteDesign , setDeleteDesign ] = useState(null);
     const [isObjLock, setObjLock] = useState("Lock");
     const [isFontBold, setFontBold] = useState(false);
@@ -86,6 +87,8 @@ export function StoreContext({ children }:any) {
         setCanvasDesign ,
         isTitleInput ,
         setTitleInput,
+        isIdInput,
+        setIdInput,
         isDeleteDesign,
         setDeleteDesign ,
         isFontToggleAdjust,
@@ -132,6 +135,7 @@ export function StoreContext({ children }:any) {
         isToggleAdjust ,
         isCanvasDesign ,
         isTitleInput ,
+        isIdInput,
         isDeleteDesign,
         isFontToggleAdjust,
         isAlignToggleAdjust,
