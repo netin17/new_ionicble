@@ -72,8 +72,8 @@ const App: React.FC = () => {
             name TEXT
           )
         `);
-        await db.close();
-    await sqlite?.closeConnection("db_ionicble", false);  
+        // await db.close();
+    // await sqlite?.closeConnection("db_ionicble", false);  
         } catch (err) {
           console.error(err);
         }

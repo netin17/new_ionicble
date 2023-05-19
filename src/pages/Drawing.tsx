@@ -31,6 +31,7 @@ import './Drawing.css';
 import 'fabric-history';
 import * as _ from 'lodash';
 import { CanvasStore } from "../Store/CanvasStore";
+import { SqllileQueries } from '../queries';
 declare global {
   interface Window {
       canvas: any;
@@ -64,6 +65,7 @@ const Drawing: React.FC = () => {
   const [cancelToggle, setCancelToggle]: any = useState(false)
   const [tempCanvas, setTempCanvas]: any = useState();
   const [present] = useIonToast();
+  const { updateCanvas, saveCanvas, isopen } = SqllileQueries();
   let history = useHistory();
   const ref:any = useRef<ReactZoomPanPinchRef | null>(null);
 
@@ -103,7 +105,16 @@ function handleDeselecting(obj:any){
 
 
 }, [cancelToggle]);
-
+useEffect(() => {
+  const init = async () => {
+    try {
+      console.log(isopen)
+      }catch (err) {
+      console.log(err)
+    }
+  };
+  init();
+}, [isopen])
 const initCanvas = () => {
 
   let canvasWidth = parseInt(dimension.width);
@@ -294,7 +305,7 @@ const [menuType, setMenuType] = useState('overlay');
                             </TransformWrapper>
                         </div>
       {/* <IonButton onClick={save_canvas}>save</IonButton> */}
-      {showButtons && <Menubutton toggleCancel={toggleCancel} selectedCategories={selectedCategories} />}
+      {showButtons && <Menubutton toggleCancel={toggleCancel} selectedCategories={selectedCategories} updateCanvas={updateCanvas} saveCanvas={saveCanvas} />}
       </IonContent>
       <IonRouterOutlet hidden />
     </IonPage>

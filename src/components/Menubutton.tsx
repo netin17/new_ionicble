@@ -18,18 +18,8 @@ const Menubutton = (props:any) => {
     const [present] = useIonToast();
 
     const { db } = useSqlite();
-    const { updateCanvas, saveCanvas, isopen } = SqllileQueries();
  
-    useEffect(() => {
-        const init = async () => {
-          try {
-            console.log(isopen)
-            }catch (err) {
-            console.log(err)
-          }
-        };
-        init();
-      }, [isopen])
+    
 
     const storeCanvas = async () => {
         if (isCanvasDesign) {
@@ -57,7 +47,7 @@ const Menubutton = (props:any) => {
                 console.log(id);
                 console.log('hiiiiiiii');
                 if(typeof id != 'undefined'){
-                    updateCanvas(id,canvasDesign); 
+                    props?.updateCanvas(id,canvasDesign); 
                 }
 
                 history.push('/tab4');
@@ -86,8 +76,10 @@ const Menubutton = (props:any) => {
             //let tempArray: any = [];
             if(db){
 
-                saveCanvas(canvasDesign);                          
-                history.push('/tab4');
+                await props?.saveCanvas(canvasDesign).then((result:any)=>{
+                    history.push('/tab4');
+                });                          
+                // 
                                
             }
            

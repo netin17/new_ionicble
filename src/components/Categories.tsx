@@ -34,7 +34,7 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
   const modal = useRef<HTMLIonModalElement>(null);
   const input = useRef<HTMLIonInputElement>(null);
   const [categories, setCategories] = useState<Category[]>([]);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { db } = useSqlite();
   const { insertCategory, getCategories, isopen } = SqllileQueries();
 
@@ -62,9 +62,11 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
   }
 
   const onWillDismiss = async (ev: CustomEvent<OverlayEventDetail>) => {
+    
     if (ev.detail.role === 'confirm') {
       await insertCategory(ev.detail.data)
      await categoriesList()
+     setIsModalOpen(false)
     }
   }
   const handleCheckboxChange = (e: CustomEvent<CheckboxChangeEventDetail>, category: string) => {
@@ -95,8 +97,8 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
           )
         })}
       </IonList>
-      +<IonButton id="open-modal" expand="block"> Add New</IonButton>
-      <IonModal ref={modal} trigger="open-modal" onWillDismiss={(ev) => onWillDismiss(ev)}>
+      +<IonButton onClick={() => setIsModalOpen(true)} expand="block"> Add New</IonButton>
+      <IonModal ref={modal} isOpen={isModalOpen} onWillDismiss={(ev) => onWillDismiss(ev)}>
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">

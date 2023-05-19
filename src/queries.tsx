@@ -22,6 +22,7 @@ export const SqllileQueries = () => {
 
   // Call initialize function when the component mounts
   useEffect(() => {
+    console.log(db)
     if (db) {
       initialize();
     }
@@ -33,8 +34,8 @@ export const SqllileQueries = () => {
         await db.open();
       }
       await db.run('INSERT INTO catagories (name) VALUES (?)', [name]);
-      await db.close();
-      setOpen(false)
+      // await db.close();
+      // setOpen(false)
     }
   }; 
 
@@ -42,24 +43,40 @@ export const SqllileQueries = () => {
     if (db) {   
       if(!isopen){
         await db.open();
+        
       }  
         const qValues : any= await db.query('SELECT * FROM catagories'); 
-        await db.close();
-        setOpen(false)    
+        // await db.close();
+        // setOpen(false)    
         return qValues?.values;        
     } 
   };
 
-  const saveCanvas = async (canvasparams:any) => {
-    if (db) {
-      
-      await db.open();           
-      await db.run('INSERT INTO drawing (name,canvasColor,canvasHeight,canvasWidth,liked,designId,designJson,thumbnail,categories) VALUES (?,?,?,?,?,?,?,?,?)',
-      [ canvasparams?.name, canvasparams?.canvasColor, canvasparams?.canvasHeight, canvasparams?.canvasWidth, canvasparams?.liked, canvasparams?.designId, canvasparams?.designJson, canvasparams?.thumbnail, canvasparams?.categories]);
-      await db.close();
-      setOpen(false)
-    
-    } 
+  const saveCanvas = async (canvasparams: any): Promise<any> => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        if (db) {
+          if (!isopen) {
+            await db.open();
+          }
+          db.isDBOpen().then(async (result) => {
+            console.log(result, "result");
+            if (result && result.result) {
+              await db.run('INSERT INTO drawing (name,canvasColor,canvasHeight,canvasWidth,liked,designId,designJson,thumbnail,categories) VALUES (?,?,?,?,?,?,?,?,?)', [canvasparams?.name, canvasparams?.canvasColor, canvasparams?.canvasHeight, canvasparams?.canvasWidth, canvasparams?.liked, canvasparams?.designId, canvasparams?.designJson, canvasparams?.thumbnail, canvasparams?.categories]);
+              resolve(true);
+            } else {
+              await db.open();
+              await db.run('INSERT INTO drawing (name,canvasColor,canvasHeight,canvasWidth,liked,designId,designJson,thumbnail,categories) VALUES (?,?,?,?,?,?,?,?,?)', [canvasparams?.name, canvasparams?.canvasColor, canvasparams?.canvasHeight, canvasparams?.canvasWidth, canvasparams?.liked, canvasparams?.designId, canvasparams?.designJson, canvasparams?.thumbnail, canvasparams?.categories]);
+              resolve(true);
+            }
+          });
+        } else {
+          reject("Database is not available");
+        }
+      } catch (error) {
+        reject(error);
+      }
+    });
   };
 
   const updateCanvas = async (id:any, canvasparams:any) => {
@@ -69,8 +86,8 @@ export const SqllileQueries = () => {
       } 
       let data = [canvasparams?.name, canvasparams?.canvasColor, canvasparams?.canvasHeight, canvasparams?.canvasWidth, canvasparams?.liked, canvasparams?.designId, canvasparams?.designJson, canvasparams?.thumbnail, canvasparams?.categories];
       await db.run(`UPDATE drawing SET name = ?, canvasColor = ?, canvasHeight = ?, canvasWidth = ?, liked = ?, designId = ?, designJson = ?, thumbnail = ?, categories = ? WHERE id = ${id}`, data);
-      await db.close();
-      setOpen(false)
+      // await db.close();
+      // setOpen(false)
     
     } 
   };
@@ -82,8 +99,8 @@ export const SqllileQueries = () => {
       } 
       let data = [status];
       await db.run(`UPDATE drawing SET liked = ? WHERE id = ${id}`, data);
-      await db.close();
-      setOpen(false)
+      // await db.close();
+      // setOpen(false)
     
     } 
   };
@@ -93,9 +110,9 @@ export const SqllileQueries = () => {
       if(!isopen){
         await db.open();
       }
-      const qValues : any= await db.query('SELECT * FROM drawing');
-      await db.close();
-      setOpen(false)
+      const qValues : any= await db.query('SELECT * FROM drawing'); 
+      // await db.close();
+      // setOpen(false)
       return qValues?.values
   } 
   }
@@ -119,8 +136,8 @@ export const SqllileQueries = () => {
         
 
       }
-      await db.close();
-      setOpen(false)
+      // await db.close();
+      // setOpen(false)
       return qValues?.values
       
   } 
