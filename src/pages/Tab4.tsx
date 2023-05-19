@@ -101,26 +101,39 @@ const Tab4: React.FC = () => {
   const {isIdInput, setIdInput}: any = useContext(CanvasStore);
 
   let history = useHistory();
+  console.log('Tab4 Page Start::');
 
   useEffect(() => {
+    console.log('Step 0');
     const init = async () => {
 
+      console.log('Step 1');
       try {
-        console.log(isopen)
+        console.log('Step 3');
+        console.log(isopen);
+        console.log('Step 4');
         if (isopen) {
+          console.log('Step 5');
           categoriesList()
           drawingList()
+          console.log('Step 6');
           
         }
       } catch (err) {
+        console.log('Step 7');
         console.log(err);
+        console.log('Step 8');
       }
     };
+    console.log('Step 9');
     init();
-  }, [isopen])
+    console.log('Step 10');
+  }, [isopen]);
+  console.log('Step 11');
 
   //get categories data from database and set categories using useState (setCategories) function.
   const categoriesList = async () => {
+    console.log('categoriesList');
     let cat = await getCategories();
     console.log(cat);
     setCategories(cat);
@@ -186,6 +199,7 @@ const Tab4: React.FC = () => {
 
   //get drawing data from database and set canvases  using useState (setCanvases) function.
   const drawingList = async () => {
+    console.log('drawingList')
     let canvas = await getCanvases();
     console.log(canvas);
     setCanvases(canvas);
@@ -195,6 +209,12 @@ const Tab4: React.FC = () => {
     } else {
       setDesignHome(true)
     }
+
+  }
+
+  function fetchAllCategoryData(){
+    categoriesList();
+    drawingList();
 
   }
 
@@ -242,6 +262,8 @@ const Tab4: React.FC = () => {
   
 useEffect(()=>{
   if (currentCategory === 'all' || typeof currentCategory == "undefined") {
+
+    fetchAllCategoryData();
     //setQuery(undefined);
     console.log(canvases)
      setResult(canvases);
@@ -427,14 +449,19 @@ if(index != -1){
                 {
                   isDesignHome ? (
 
-                    result?.map((design: any, index:number) => {
+                    result?.map((design: any, index:number) => {  
+                      
+                      
+                      const categoriesData = design.categories.split(','); 
+
+
+
+
+
+
+
                       return (
-                        <>
-                          {/* <ThumbnailCards val={index} key={index} design={design} loadCanvas={drawingList} /> */}
-
-                          {/* deleteCard={toggleDelete} */}
-
-                          {/* //------------------------------------------------------------------------------------------------------------------------------------------ */}
+                       
                           <IonCard className={home.savedDesignCard} key={index}>
                             <div className={home.thumbnailContainer} onClick={() => { loadCanvas(design) }}>
                               <IonImg  src={design.thumbnail} />
@@ -489,18 +516,14 @@ if(index != -1){
                               </IonToolbar>
                               <div>
                                 <IonToolbar className={home.categoriesToolbar}>
-                                  <IonChip className={home.categoryChip}>Undefined</IonChip>
-                                  <IonChip className={home.categoryChip}>Category 1</IonChip>
-                                  <IonChip className={home.categoryChip}>Category 2</IonChip>
+                                { categoriesData.map((category:any) => (<IonChip className={home.categoryChip}>{category.trim()}</IonChip>))}
+                                
                                 </IonToolbar>
                               </div>
                             </div>
 
                           </IonCard>
-                          {/* //------------------------------------------------------------------------------------------------------------------------------------------ */}
-
-                        </>
-
+                        
                       )
                     })
                   )
