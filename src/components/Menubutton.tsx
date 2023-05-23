@@ -43,13 +43,11 @@ const Menubutton = (props:any) => {
             }
             //let tempArray: any = [];
             if(db){
-                console.log('hiiiiiiii');
-                console.log(id);
-                console.log('hiiiiiiii');
                 if(typeof id != 'undefined'){
                     props?.updateCanvas(id,canvasDesign); 
                 }
 
+                //history.push({ pathname: '/tab4' }); 
                 history.push('/tab4');
                                
             }
@@ -77,22 +75,12 @@ const Menubutton = (props:any) => {
             if(db){
 
                 await props?.saveCanvas(canvasDesign).then((result:any)=>{
+                    
                     history.push('/tab4');
                 });                          
-                // 
-                               
+                                              
             }
            
-            // if (await storage.get('myDesign')) {
-            //     let getLocalArray: any = JSON.parse(await storage.get('myDesign') || '[]');
-            //     tempArray.push(...getLocalArray);
-            // }
-
-            // tempArray.push(canvasDesign);
-
-            // await storage.set('myDesign', JSON.stringify(tempArray));
-            // canvas.renderAll();
-            // history.go(-2);
         }
         // presentToast('top','Design saved successfully')
         // canvas.clearHistory();
@@ -121,11 +109,7 @@ const Menubutton = (props:any) => {
                     onClick={() => {storeCanvas()}}>
                     Save
                 </IonButton>
-                {/*
-                <button className={drawing.send}>
-                    <span className={drawing.materialSymbol}>cast</span>
-                </button>
-                */}
+              
             </IonToolbar>
         </>
     );

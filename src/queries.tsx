@@ -188,6 +188,39 @@ export const SqllileQueries = () => {
   });
 };
 
+
+const deleteCanvas = async (id:any): Promise<any> => {
+
+  console.log(id);
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (db) {
+        db.isDBOpen().then(async (result) => {
+          if (result && result.result) {
+           
+            await db.run(`Delete FROM drawing WHERE id = ${id}`);
+            const qValues: any = await db.query("SELECT * FROM drawing");
+            console.log(qValues?.values);
+            db.close();
+            resolve(qValues?.values);
+          } else {
+            await db.open();           
+            await db.run(`Delete FROM drawing WHERE id = ${id}`);
+            const qValues: any = await db.query("SELECT * FROM drawing");
+            console.log(qValues?.values);
+            db.close();
+            resolve(qValues?.values);           
+          }
+        });
+      } else {
+        reject("Database is not available");
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
   const getCanvases = async (): Promise<any> => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -254,6 +287,7 @@ export const SqllileQueries = () => {
     getCanvasesByCategories,
     updateCanvas,
     LikeUnlikeCanvas,
+    deleteCanvas,
     isopen
   };
 };
