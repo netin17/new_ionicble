@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
 //import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+//import ExploreContainer from '../components/ExploreContainer';
 import { Link, useHistory } from 'react-router-dom';
 import './Tab4.css';
 import { SqllileQueries } from '../queries';
@@ -10,21 +10,22 @@ import app from '../App.module.css';
 
 //Card design implement.
 import { DeleteWarning } from "../components/DeleteWarning";
-import { ThumbnailCards } from "../components/ThumbnailCards";
+//import { ThumbnailCards } from "../components/ThumbnailCards";
 import { CanvasStore } from "../Store/CanvasStore";
+import { useIonViewWillEnter } from "@ionic/react";
 
 
 import {
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonMenu,
-  IonFabButton,
+  //IonMenu,
+  //IonFabButton,
   IonButtons,
   IonButton,
-  IonMenuButton,
-  IonFab,
-  IonIcon,
+  // IonMenuButton,
+  // IonFab,
+  // IonIcon,
   IonContent,
   IonSearchbar,
   IonList,
@@ -37,7 +38,7 @@ import {
   IonSegmentButton,
   useIonActionSheet,
 
-  IonAvatar,
+  //IonAvatar,
   IonImg,
   IonModal,
 
@@ -71,7 +72,29 @@ interface CanvasItems {
 
 const Tab4: React.FC = () => {
 
+  console.log('Tab4 render');
   const modal = useRef<HTMLIonModalElement>(null);
+
+  useEffect(() =>{
+    
+    if (isopen) {
+
+      console.log('connection available');
+      getCanvases().then(function(canvasResult){
+        setResult(canvasResult);
+      })
+
+      getCategories().then(function(CatResult){
+        setCategories(CatResult);
+      })
+
+
+    }else{
+
+      setResult(canvases);
+    }
+
+  },[]);
 
   function dismiss() {
     modal.current?.dismiss();
@@ -79,7 +102,7 @@ const Tab4: React.FC = () => {
 
 
   const { db } = useSqlite();
-  const { getCategories, getCanvases,LikeUnlikeCanvas, isopen } = SqllileQueries();
+  const {deleteCanvas, getCategories, getCanvases,LikeUnlikeCanvas, isopen } = SqllileQueries();
   const [categories, setCategories] = useState<Category[]>([]);
   const [canvases, setCanvases] = useState([]);
   const [currentCategory, setcurrentCategory] = useState<string>();
@@ -99,6 +122,7 @@ const Tab4: React.FC = () => {
   const { setCanvasDesign }: any = useContext(CanvasStore);
   const { isTitleInput, setTitleInput }: any = useContext(CanvasStore);
   const {isIdInput, setIdInput}: any = useContext(CanvasStore);
+  const [presents] = useIonToast();
 
   let history = useHistory();
   console.log('Tab4 Page Start::');
@@ -131,7 +155,12 @@ const Tab4: React.FC = () => {
   }, [isopen]);
   console.log('Step 11');
 
+  useEffect(() =>{
+    console.log('Step 12');
+    categoriesList();
+  },[]);
   //get categories data from database and set categories using useState (setCategories) function.
+  
   const categoriesList = async () => {
     console.log('categoriesList');
     let cat = await getCategories();
@@ -139,7 +168,7 @@ const Tab4: React.FC = () => {
     setCategories(cat);
   }
 
-  const openactionsheet = () => {
+  const openactionsheet = (design:any) => {
     present({
       header: 'Actions',
       buttons: [
@@ -152,13 +181,13 @@ const Tab4: React.FC = () => {
         {
           text: 'Add to favorites',
           handler: () => {
-
+            like_design(design.id, design.liked==1 ? 0 : 1)
           },
         },
         {
           text: 'Edit',
           handler: () => {
-
+            loadCanvas(design);
           },
         },
         {
@@ -183,7 +212,19 @@ const Tab4: React.FC = () => {
           text: 'Delete',
           role: 'destructive',
           handler: () => {
-            // deleteCard(design)
+            
+            deleteCanvas(design.id);
+            
+            let filteredArray = canvases.filter((des:any)=> des.id !== design.id);
+            setCanvases([...filteredArray as []]);
+            setCanvases(filteredArray);
+            setcurrentCategory('all');
+            console.log(filteredArray);
+
+            presentToast('top','Design deleted successfully')
+            history.push("/tab4");
+
+
           },
         },
         {
@@ -196,6 +237,14 @@ const Tab4: React.FC = () => {
       ],
     })
   }
+
+  const presentToast = (position:any, message:any) => {
+    presents({
+        message: message,
+        duration: 1500,
+        position: position
+    });
+  };
 
   //get drawing data from database and set canvases  using useState (setCanvases) function.
   const drawingList = async () => {
@@ -233,6 +282,24 @@ const Tab4: React.FC = () => {
     setIdInput(design.id);
   }
 
+  useEffect(() => {
+
+    if (isopen) {
+
+      console.log('connection available');
+      getCanvases().then(function(CanvasResult){
+        setResult(CanvasResult);
+      });
+
+      getCategories().then(function(CatResult){
+        setCategories(CatResult);
+      });
+
+
+    }
+
+  },[])
+
   //   const deleteCards = async () => {
   //     let filteredArray = thumbnail.filter((des:any)=> des.designId !== isDeleteDesign.designId);
   //     setThumbnail([...filteredArray as []]);
@@ -261,12 +328,33 @@ const Tab4: React.FC = () => {
   //Filter the "canvases" data by using array filter function and set into empty array result as per selected category from segement.
   
 useEffect(()=>{
+  
   if (currentCategory === 'all' || typeof currentCategory == "undefined") {
 
-    fetchAllCategoryData();
+    //fetchAllCategoryData();
     //setQuery(undefined);
+    setQuery('');
     console.log(canvases)
-     setResult(canvases);
+
+    if (isopen) {
+
+      console.log('connection available');
+      getCanvases().then(function(canvasResult){
+        setResult(canvasResult);
+      })
+
+      getCategories().then(function(CatResult){
+        setCategories(CatResult);
+      })
+
+
+    }else{
+
+      setResult(canvases);
+    }
+    
+
+   
     console.log(result);
 
   } else if (currentCategory === 'favorites') {
@@ -285,6 +373,8 @@ useEffect(()=>{
     //let canvasesObj = Object.assign({}, canvases);
     let filter = canvases?.filter(canvase => canvase['name'] == query);
     setResult(filter)
+    //setCanvases(filter);
+   
     dismiss();
 
   }
@@ -326,16 +416,14 @@ useEffect(()=>{
 
 
   const like_design=async(id:Number,status:Number)=>{
-console.log(id, status)
-
-
-await LikeUnlikeCanvas(id, status)
-let index:number=result.findIndex((x:any)=>x.id==id);
-if(index != -1){
-  result[index].liked=status;
-  setResult((oldvalues:any)=>[...oldvalues, oldvalues[index].liked=status])
-  console.log("result", result)
-}
+    console.log(id, status)
+    await LikeUnlikeCanvas(id, status)
+    let index:number=result.findIndex((x:any)=>x.id==id);
+    if(index != -1){
+      result[index].liked=status;
+      setResult((oldvalues:any)=>[...oldvalues, oldvalues[index].liked=status])
+      console.log("result", result)
+    }
   }
   //If result array is empty then set by default all. 
   // if(result.length === 0){
@@ -450,17 +538,15 @@ if(index != -1){
                   isDesignHome ? (
 
                     result?.map((design: any, index:number) => {  
-                      
-                      
-                      const categoriesData = design.categories.split(','); 
+                    
+                      let categoriesData =[];
+                      if(design.categories != undefined){
+                        categoriesData = design.categories.split(','); 
+                      }
 
+                     // if(design.id > 0){
 
-
-
-
-
-
-                      return (
+                        return (
                        
                           <IonCard className={home.savedDesignCard} key={index}>
                             <div className={home.thumbnailContainer} onClick={() => { loadCanvas(design) }}>
@@ -489,7 +575,7 @@ if(index != -1){
                                     fill="solid"
                                     size="small"
                                     color="primary"
-                                    onClick={() => { openactionsheet() }}
+                                    onClick={() => { openactionsheet(design) }}
                                   >
                                     <span className={app.materialSymbol}>cast</span>
                                   </IonButton>
@@ -499,7 +585,7 @@ if(index != -1){
                                     fill="solid"
                                     size="small"
                                     color="secondary"
-                                    onClick={() => { openactionsheet() }}
+                                    onClick={() => { openactionsheet(design) }}
                                   >
                                     <span className={app.materialSymbol}>more_vert</span>
                                   </IonButton>
@@ -525,6 +611,11 @@ if(index != -1){
                           </IonCard>
                         
                       )
+                     // }
+
+                     
+
+
                     })
                   )
                     :
