@@ -280,30 +280,30 @@ const u_send = async (next: boolean) => {
   return new Promise((resolve, reject) => {
       // console.log(buffArr.toString())
 
-      setTimeout(() => {
-          return BluetoothSerial.write(buffArr).then((img_write) => {
-            if(img_write=="OK!"){
-              return BluetoothSerial.clear().then((clearstatus) => {
+      // setTimeout(() => {
+      //     return BluetoothSerial.write(buffArr).then((img_write) => {
+      //       if(img_write=="OK!"){
+      //         return BluetoothSerial.clear().then((clearstatus) => {
                 
-                buffArr = [];
-                return resolve(true)
-            })
-            }else{
-              alert(JSON.stringify(img_write))
-            }
+      //           buffArr = [];
+      //           return resolve(true)
+      //       })
+      //       }else{
+      //         alert(JSON.stringify(img_write))
+      //       }
              
-          }).catch((end_error) => {
-            alert(end_error)
-              return reject(false);
-          })
-      }, 400);
+      //     }).catch((end_error) => {
+      //       alert(end_error)
+      //         return reject(false);
+      //     })
+      // }, 400);
    
 
-// setTimeout(() => {
-//   // alert(pxInd)
-//   console.log(buffArr.toString())
-//    return resolve(true)
-// }, 1000);
+setTimeout(() => {
+  // alert(pxInd)
+  console.log(buffArr.toString())
+   return resolve(true)
+}, 1000);
       
   })
 
