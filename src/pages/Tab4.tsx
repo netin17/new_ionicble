@@ -10,7 +10,7 @@ import app from '../App.module.css';
 
 //Card design implement.
 import { DeleteWarning } from "../components/DeleteWarning";
-//import { ThumbnailCards } from "../components/ThumbnailCards";
+import { ThumbnailCards } from "../components/ThumbnailCards";
 import { CanvasStore } from "../Store/CanvasStore";
 import { useIonViewWillEnter } from "@ionic/react";
 import ImageManipulator from '../Hooks/imageManipulation';
@@ -244,24 +244,18 @@ useEffect(()=>{
 
   }
 
-  //console.log(canvases)
-  //console.log(result)
-
 
 },[currentCategory, query, shorting])
   
 
   const like_design=async(id:Number,status:Number)=>{
-    //console.log(id, status)
     await LikeUnlikeCanvas(id, status)
     let index:number=result.findIndex((x:any)=>x.id==id);
     if(index != -1){
       result[index].liked=status;
       setResult((oldvalues:any)=>[...oldvalues, oldvalues[index].liked=status])
-      //console.log("result", result)
     }
   }
-  //const [menuType, setMenuType] = useState('overlay');
   
   const deleteCards = async () => {
     console.log("inside deletecard::",isDeleteDesign.id)
@@ -269,15 +263,6 @@ useEffect(()=>{
     await deleteCanvas(isDeleteDesign.id).then((result:any)=>{
                                         
       history.push({pathname:'/tab4', state:{data:result}});
-
-      // let filteredArray = canvases?.filter((des:any)=> des.id !== isDeleteDesign.id);
-
-      // setCanvases([...filteredArray as []]);
-      // setcurrentCategory('all');
-
-      // if(filteredArray.length == 0 ) {
-      //   setDesignHome(false)
-      // }
 
       setloader(!showloader);
 
@@ -295,7 +280,6 @@ useEffect(()=>{
       !deleteToggle ? setDeleteDesign(design) :setDeleteDesign(null) ;
   }
   
-  //******************************************************************************************************************************************* */
   return (
 
     <>
