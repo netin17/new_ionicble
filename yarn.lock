@@ -29,6 +29,20 @@
     "jsonpointer" "^5.0.0"
     "leven" "^3.1.0"
 
+"@awesome-cordova-plugins/ble@^6.3.0":
+  "integrity" "sha512-GVTq3Z9QubTf5iY35Ef1vkcovsiBlY82MCD9Kh3Sny2wRfjidBdtQi/SNwuPtytK/fsJJ04eTKvjd2hUJVaWCw=="
+  "resolved" "https://registry.npmjs.org/@awesome-cordova-plugins/ble/-/ble-6.3.0.tgz"
+  "version" "6.3.0"
+  dependencies:
+    "@types/cordova" "latest"
+
+"@awesome-cordova-plugins/bluetooth-serial@^6.3.0":
+  "integrity" "sha512-bIF4ipuDz407sc+YoHH0ZsvivePtGrvSrbHcn8EQUsMao2Pf8u5Kp+mofuKxzrlAR39mOhkuqpJHl3azaVJG2w=="
+  "resolved" "https://registry.npmjs.org/@awesome-cordova-plugins/bluetooth-serial/-/bluetooth-serial-6.3.0.tgz"
+  "version" "6.3.0"
+  dependencies:
+    "@types/cordova" "latest"
+
 "@awesome-cordova-plugins/core@^6.3.0":
   "integrity" "sha512-MkcWO8akZLHa2RSJEPf76Y3P9wPqh5oXE8YCzn2vnYYeNyYWYnka2pHFsgUdbXJNiS+YeveUzvw+Isweg+wynA=="
   "resolved" "https://registry.npmjs.org/@awesome-cordova-plugins/core/-/core-6.3.0.tgz"
@@ -1091,6 +1105,13 @@
   "resolved" "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   "version" "0.2.3"
 
+"@capacitor-community/bluetooth-le@^2.1.0":
+  "integrity" "sha512-bVxff7QsSsJONUWEPB9sbJu3aiuuL3ISvhhitImvy2gawl3D6giNsjJnDPvYjjKs2o3Xbeq/U71UMx11BDR98g=="
+  "resolved" "https://registry.npmjs.org/@capacitor-community/bluetooth-le/-/bluetooth-le-2.2.3.tgz"
+  "version" "2.2.3"
+  dependencies:
+    "@types/web-bluetooth" "^0.0.16"
+
 "@capacitor-community/sqlite@^4.6.3":
   "integrity" "sha512-661oLijvAkk0tGeiDPXDDOQFUqnB/tIQKwzZ+yGB0o3rC/n6bxEcsOcZzibDdt4o2wgC2WyOifVsUI2/9YFItg=="
   "resolved" "https://registry.npmjs.org/@capacitor-community/sqlite/-/sqlite-4.6.3.tgz"
@@ -1349,6 +1370,13 @@
     "@ionic/core" "7.0.4"
     "ionicons" "^7.0.0"
     "tslib" "*"
+
+"@ionic/storage@^3.0.6":
+  "integrity" "sha512-sw+zSJINIpbQCGZR9mEtb9N0WmZLuhcMVqOZJBqLuDACAMdXqG39zmp5nSVqhGI1/9X3nd0K5gVn6icyVfUnUg=="
+  "resolved" "https://registry.npmjs.org/@ionic/storage/-/storage-3.0.6.tgz"
+  "version" "3.0.6"
+  dependencies:
+    "localforage" "^1.9.0"
 
 "@ionic/utils-array@2.1.5":
   "integrity" "sha512-HD72a71IQVBmQckDwmA8RxNVMTbxnaLbgFOl+dO5tbvW9CkkSFCv41h6fUuNsSEVgngfkn0i98HDuZC8mk+lTA=="
@@ -2083,8 +2111,6 @@
     "@types/node" "*"
 
 "@types/cordova@latest":
-  "integrity" "sha512-AtBm1IAqqXsXszJe6XxuA2iXLhraNCj25p/FHRyikPeW0Z3YfgM6qzWb+VJglJTmZc5lqRNy84cYM/sQI5v6Vw=="
-  "resolved" "https://registry.npmjs.org/@types/cordova/-/cordova-11.0.0.tgz"
   "version" "11.0.0"
 
 "@types/eslint-scope@^3.7.3":
@@ -2357,6 +2383,11 @@
   "integrity" "sha512-NfQ4gyz38SL8sDNrSixxU2Os1a5xcdFxipAFxYEuLUlvU2uDwS4NUpsImcf1//SlWItCVMMLiylsxbmNMToV/g=="
   "resolved" "https://registry.npmjs.org/@types/trusted-types/-/trusted-types-2.0.3.tgz"
   "version" "2.0.3"
+
+"@types/web-bluetooth@^0.0.16":
+  "integrity" "sha512-oh8q2Zc32S6gd/j50GowEjKLoOVOwHP/bWVjKJInBwQqdOYMdPrf1oVlelTlyfFK3CKxL1uahMDAr+vy8T7yMQ=="
+  "resolved" "https://registry.npmjs.org/@types/web-bluetooth/-/web-bluetooth-0.0.16.tgz"
+  "version" "0.0.16"
 
 "@types/ws@^8.5.1":
   "integrity" "sha512-zdQDHKUgcX/zBc4GrwsE/7dVdAD8JR4EuiAXiiUhhfyIJXXb2+PrGshFyeXWQPMmmZ2XxgaqclgpIC7eTXc1mg=="
@@ -7038,7 +7069,7 @@
   "resolved" "https://registry.npmjs.org/loader-utils/-/loader-utils-3.2.1.tgz"
   "version" "3.2.1"
 
-"localforage@^1.10.0":
+"localforage@^1.10.0", "localforage@^1.9.0":
   "integrity" "sha512-14/H1aX7hzBBmmh7sGPd+AOMkkIrHM3Z1PAyGgZigA1H1p5O5ANnMyWzvpAETtG68/dC4pC0ncy3+PPGzXZHPg=="
   "resolved" "https://registry.npmjs.org/localforage/-/localforage-1.10.0.tgz"
   "version" "1.10.0"
@@ -9043,6 +9074,13 @@
   "version" "1.2.0"
   dependencies:
     "queue-microtask" "^1.2.2"
+
+"rxjs@^7.8.0":
+  "integrity" "sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg=="
+  "resolved" "https://registry.npmjs.org/rxjs/-/rxjs-7.8.1.tgz"
+  "version" "7.8.1"
+  dependencies:
+    "tslib" "^2.1.0"
 
 "safe-array-concat@^1.0.0":
   "integrity" "sha512-9dVEFruWIsnie89yym+xWTAYASdpw3CJV7Li/6zBewGf9z2i1j31rP6jnY0pHEO4QZh6N0K11bFjWmdR8UGdPQ=="

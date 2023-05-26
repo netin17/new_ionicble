@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
 //import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 //import ExploreContainer from '../components/ExploreContainer';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory ,useLocation} from 'react-router-dom';
 import './Tab4.css';
 import { SqllileQueries } from '../queries';
 import useSqlite from '../database';
@@ -13,7 +13,8 @@ import { DeleteWarning } from "../components/DeleteWarning";
 //import { ThumbnailCards } from "../components/ThumbnailCards";
 import { CanvasStore } from "../Store/CanvasStore";
 import { useIonViewWillEnter } from "@ionic/react";
-
+import ImageManipulator from '../Hooks/imageManipulation';
+import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial';
 
 import {
   IonHeader,
@@ -49,72 +50,38 @@ import {
 
 
 } from '@ionic/react';
+import { unescape } from 'lodash';
 
 interface Category {
   id: number;
   name: string;
 }
 
-interface CanvasItems {
-  id: number,
-  name: string;
-  canvasColor: string;
-  canvasHeight: number;
-  canvasWidth: number;
-  liked: number;
-  designId: string;
-  designJson: string;
-  thumbnail: string;
-  categories: string;
-}
-
-
 
 const Tab4: React.FC = () => {
 
   console.log('Tab4 render');
   const modal = useRef<HTMLIonModalElement>(null);
-
-  useEffect(() =>{
-    
-    if (isopen) {
-
-      console.log('connection available');
-      getCanvases().then(function(canvasResult){
-        setResult(canvasResult);
-      })
-
-      getCategories().then(function(CatResult){
-        setCategories(CatResult);
-      })
-
-
-    }else{
-
-      setResult(canvases);
-    }
-
-  },[]);
-
-  function dismiss() {
-    modal.current?.dismiss();
-  }
-
-
   const { db } = useSqlite();
-  const {deleteCanvas, getCategories, getCanvases,LikeUnlikeCanvas, isopen } = SqllileQueries();
+  const {deleteCanvas, getCategories, getCanvases, LikeUnlikeCanvas, isopen } = SqllileQueries();
   const [categories, setCategories] = useState<Category[]>([]);
   const [canvases, setCanvases] = useState([]);
   const [currentCategory, setcurrentCategory] = useState<string>();
+  
   //const [records, setRecords] = useState<CanvasItems[]>([]);
   const [present] = useIonActionSheet();
   const [query, setQuery] = useState<string>();
   const [shorting, setShorting] = useState<string>();
   const [clearVal, setclearVal] = useState<string>();
 
+  const canvasdesign = useRef<HTMLCanvasElement>(null);
+  const printdesign = useRef<HTMLCanvasElement>(null);
   //Card design implement.
-  const [deleteToggle, setDeleteToggle]: any = useState(false);
   const [isDeleteDesign, setDeleteDesign]: any = useState();
+
+
+  const [deleteToggle, setDeleteToggle]: any = useState(false);
+  
   const [isDesignHome, setDesignHome]: any = useState(true);
   const [thumbnail, setThumbnail]: any = useState([]);
   const [result, setResult]: any = useState([]);
@@ -122,38 +89,35 @@ const Tab4: React.FC = () => {
   const { setCanvasDesign }: any = useContext(CanvasStore);
   const { isTitleInput, setTitleInput }: any = useContext(CanvasStore);
   const {isIdInput, setIdInput}: any = useContext(CanvasStore);
+  const [ imageArray, setImageArray] = useState<any>([]);
+  const [ showloader, setloader ] = useState(false);
+  const [ searchResult, setSearchResult ] = useState([]);
+  const [ isSearch, setIsSearch ] = useState(false);
   const [presents] = useIonToast();
 
-  let history = useHistory();
-  console.log('Tab4 Page Start::');
+  let history:any = useHistory();
+
+  const location:any = useLocation();
+  const data = location.state?.data;
 
   useEffect(() => {
-    console.log('Step 0');
     const init = async () => {
-
-      console.log('Step 1');
       try {
-        console.log('Step 3');
-        console.log(isopen);
-        console.log('Step 4');
-        if (isopen) {
-          console.log('Step 5');
+        // if (isopen) {
           categoriesList()
           drawingList()
-          console.log('Step 6');
           
-        }
+        // }
       } catch (err) {
-        console.log('Step 7');
-        console.log(err);
-        console.log('Step 8');
+        console.log(err)
       }
     };
-    console.log('Step 9');
     init();
-    console.log('Step 10');
-  }, [isopen]);
-  console.log('Step 11');
+  }, [isopen,data,showloader]);
+
+  function dismiss() {
+    modal.current?.dismiss();
+  }
 
   useEffect(() =>{
     console.log('Step 12');
@@ -162,80 +126,14 @@ const Tab4: React.FC = () => {
   //get categories data from database and set categories using useState (setCategories) function.
   
   const categoriesList = async () => {
-    console.log('categoriesList');
-    let cat = await getCategories();
-    console.log(cat);
-    setCategories(cat);
-  }
+    await getCategories().then(function(cat){
+      //console.log("categories---",cat);
+      setCategories(cat);
 
-  const openactionsheet = (design:any) => {
-    present({
-      header: 'Actions',
-      buttons: [
-        {
-          text: 'Send to display',
-          handler: () => {
-            modal?.current?.present()
-          },
-        },
-        {
-          text: 'Add to favorites',
-          handler: () => {
-            like_design(design.id, design.liked==1 ? 0 : 1)
-          },
-        },
-        {
-          text: 'Edit',
-          handler: () => {
-            loadCanvas(design);
-          },
-        },
-        {
-          text: 'Duplicate',
-          handler: () => {
-
-          },
-        },
-        {
-          text: 'Invert',
-          handler: () => {
-
-          },
-        },
-        {
-          text: 'Share',
-          handler: () => {
-
-          },
-        },
-        {
-          text: 'Delete',
-          role: 'destructive',
-          handler: () => {
-            
-            deleteCanvas(design.id);
-            
-            let filteredArray = canvases.filter((des:any)=> des.id !== design.id);
-            setCanvases([...filteredArray as []]);
-            setCanvases(filteredArray);
-            setcurrentCategory('all');
-            console.log(filteredArray);
-
-            presentToast('top','Design deleted successfully')
-            history.push("/tab4");
-
-
-          },
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          data: {
-            action: 'cancel',
-          },
-        },
-      ],
-    })
+    }).catch(e => {
+      console.log(e)
+    });
+    
   }
 
   const presentToast = (position:any, message:any) => {
@@ -248,27 +146,28 @@ const Tab4: React.FC = () => {
 
   //get drawing data from database and set canvases  using useState (setCanvases) function.
   const drawingList = async () => {
-    console.log('drawingList')
-    let canvas = await getCanvases();
-    console.log(canvas);
-    setCanvases(canvas);
+    //console.log('drawingList')
+    await getCanvases().then(function(canvas){
+      //console.log("canvases---",canvas);
+      setCanvases(canvas);
+      setResult(canvas)
+      if (canvas.length == 0) {
+        setDesignHome(false)
+      } else {
+        setDesignHome(true)
+      }
+
+    }).catch(e => {
+      console.log(e)
+    });
+
     setcurrentCategory('all')
-    if (canvas.length == 0) {
-      setDesignHome(false)
-    } else {
-      setDesignHome(true)
-    }
-
-  }
-
-  function fetchAllCategoryData(){
-    categoriesList();
-    drawingList();
 
   }
 
   const loadCanvas = (design: any) => {
-
+    setTitleInput(design.name);
+    setIdInput(design.id);
 
     const designJson: any = JSON.parse(design.designJson);
     if (designJson.background == 'black') {
@@ -278,103 +177,42 @@ const Tab4: React.FC = () => {
     }
     setCanvasDesign(design);
     history.push("/drawing");
-    setTitleInput(design.name);
-    setIdInput(design.id);
+   
   }
-
-  useEffect(() => {
-
-    if (isopen) {
-
-      console.log('connection available');
-      getCanvases().then(function(CanvasResult){
-        setResult(CanvasResult);
-      });
-
-      getCategories().then(function(CatResult){
-        setCategories(CatResult);
-      });
-
-
-    }
-
-  },[])
-
-  //   const deleteCards = async () => {
-  //     let filteredArray = thumbnail.filter((des:any)=> des.designId !== isDeleteDesign.designId);
-  //     setThumbnail([...filteredArray as []]);
-  //     await storage.set('myDesign', JSON.stringify(filteredArray));
-
-  //     if(filteredArray.length == 0 ) {
-  //          setDesignHome(false)
-  //     }
-
-  //     presentToast('top','Design deleted successfully')
-  //     setDeleteToggle(false);
-  //     history.push("/");
-  // }
-  // const toggleDelete=(design:any)=>{
-  //     setDeleteToggle(!deleteToggle);
-  //     !deleteToggle ? setDeleteDesign(design) :setDeleteDesign(null) ;
-  // }
-  // const presentToast = (position:any, message:any) => {
-  //   present({
-  //       message: message,
-  //       duration: 1500,
-  //       position: position
-  //   });
-  // };
 
   //Filter the "canvases" data by using array filter function and set into empty array result as per selected category from segement.
   
 useEffect(()=>{
   
   if (currentCategory === 'all' || typeof currentCategory == "undefined") {
-
-    //fetchAllCategoryData();
-    //setQuery(undefined);
-    setQuery('');
-    console.log(canvases)
-
-    if (isopen) {
-
-      console.log('connection available');
-      getCanvases().then(function(canvasResult){
-        setResult(canvasResult);
-      })
-
-      getCategories().then(function(CatResult){
-        setCategories(CatResult);
-      })
-
-
-    }else{
-
-      setResult(canvases);
-    }
-    
-
    
-    console.log(result);
+    setQuery('');
 
+    if(isSearch === true){setResult(searchResult); setIsSearch(false);}else{setResult(canvases);}
+    
+    
   } else if (currentCategory === 'favorites') {
-    //setQuery('');
-   let filter= canvases?.filter(canvase => canvase['liked'] === 1);
-   setResult(filter)
+ 
+    setQuery('');
+    let filter= canvases?.filter(canvase => canvase['liked'] === 1);
+    setResult([...filter as []]);
 
   } else {
-    //setQuery('');
-   let filter = canvases?.filter(canvase => canvase['categories'] == currentCategory);
-   setResult(filter)
+
+    setQuery('');
+    let filter = canvases?.filter(canvase => canvase['categories'] == currentCategory);
+    setResult([...filter as []]);
   }
 
   if (query) {
-    console.log(query);
-    //let canvasesObj = Object.assign({}, canvases);
-    let filter = canvases?.filter(canvase => canvase['name'] == query);
-    setResult(filter)
-    //setCanvases(filter);
-   
+
+    console.log('Searching Keyword:::', query)
+    
+    let searchResult = canvases?.filter(canvase => canvase['name'] == query);
+    setcurrentCategory('all');
+    setSearchResult(searchResult)
+    setIsSearch(true);
+    console.log('Searching Result::',searchResult)
     dismiss();
 
   }
@@ -386,11 +224,12 @@ useEffect(()=>{
 
     if (shorting == 'new') {
      let filter = shortingArray.slice(0).reverse().map((element: unknown) => { return element; });
-     setResult(filter)
+     setResult([...filter as []]);
     }
 
     if (shorting == 'old') {
-      // result = result;
+      //result;
+
     }
 
     if (shorting == 'A') {
@@ -401,36 +240,62 @@ useEffect(()=>{
       setResult(result);
     }
 
+   
+
   }
+
+  //console.log(canvases)
+  //console.log(result)
+
+
 },[currentCategory, query, shorting])
   
 
-  // Searching AS per 3 dots searching input.
-  
-  //  console.log('--------------------------------------');
-  //  console.log(query);
-  //  console.log('--------------------------------------');
-
-  // Shorting By "New","Old","A-Z","Z-A"
-  
-
-
   const like_design=async(id:Number,status:Number)=>{
-    console.log(id, status)
+    //console.log(id, status)
     await LikeUnlikeCanvas(id, status)
     let index:number=result.findIndex((x:any)=>x.id==id);
     if(index != -1){
       result[index].liked=status;
       setResult((oldvalues:any)=>[...oldvalues, oldvalues[index].liked=status])
-      console.log("result", result)
+      //console.log("result", result)
     }
   }
-  //If result array is empty then set by default all. 
-  // if(result.length === 0){
-  //   result =  canvases;
-  // }
+  //const [menuType, setMenuType] = useState('overlay');
+  
+  const deleteCards = async () => {
+    console.log("inside deletecard::",isDeleteDesign.id)
+   
+    await deleteCanvas(isDeleteDesign.id).then((result:any)=>{
+                                        
+      history.push({pathname:'/tab4', state:{data:result}});
 
-  const [menuType, setMenuType] = useState('overlay');
+      // let filteredArray = canvases?.filter((des:any)=> des.id !== isDeleteDesign.id);
+
+      // setCanvases([...filteredArray as []]);
+      // setcurrentCategory('all');
+
+      // if(filteredArray.length == 0 ) {
+      //   setDesignHome(false)
+      // }
+
+      setloader(!showloader);
+
+      presentToast('top','Design deleted successfully')
+      setDeleteToggle(false);
+
+  });
+
+
+  }
+
+  const toggleDelete=(design:any)=>{
+    console.log("delete data---",design)
+      setDeleteToggle(!deleteToggle);
+      !deleteToggle ? setDeleteDesign(design) :setDeleteDesign(null) ;
+  }
+  
+  //******************************************************************************************************************************************* */
   return (
 
     <>
@@ -510,31 +375,20 @@ useEffect(()=>{
             </IonSegment>
           </IonToolbar>
         </IonHeader>
-        {/* <IonContent fullscreen>
-         
-        {result?.map((value:any, index)=>{
-          return(
-            <div key={index}>
-              <img src={value?.thumbnail} width="50px" height="50px" />
-            </div>
-          )
-        })}
-        </IonContent> */}
-
-
+       
         {
           deleteToggle ?
-            <DeleteWarning isOpen={deleteToggle} isDeleteDesign={isDeleteDesign} />
-            // deleteCards={deleteCards} toggleDelete={toggleDelete} 
+            <DeleteWarning deleteCards={deleteCards} toggleDelete={toggleDelete} isOpen={deleteToggle} isDeleteDesign={isDeleteDesign} />
             :
-            <IonContent className={home.savedDesignsContainer} fullscreen={true}>
-              <IonList
-                className='card_outer'
-                inset={false}
-                lines="none">
+            <IonContent  className={home.savedDesignsContainer} fullscreen={true}>
+            <IonList
+              className='card_outer'
+              inset={false}
+              lines="none">
 
 
                 {
+                  
                   isDesignHome ? (
 
                     result?.map((design: any, index:number) => {  
@@ -544,82 +398,18 @@ useEffect(()=>{
                         categoriesData = design.categories.split(','); 
                       }
 
-                     // if(design.id > 0){
-
+                   
                         return (
-                       
-                          <IonCard className={home.savedDesignCard} key={index}>
-                            <div className={home.thumbnailContainer} onClick={() => { loadCanvas(design) }}>
-                              <IonImg  src={design.thumbnail} />
+                       <>
 
-                              {/* <canvas hidden ref={canvasdesign} height={design.canvasHeight} width={design.canvasWidth} /> */}
-
-                              
-                            </div>
-                            <IonButton className={home.favoritesButton} onClick={()=>{like_design(design.id, design.liked==1 ? 0 : 1)}}>
-                                <span className={app.materialSymbol}>favorite</span>
-                                {design.liked==1 ? 'liked': 'unliked'}
-                              </IonButton>
-
-                            <div >
-                              <IonToolbar className={home.savedDesignTitleContainer}>
-                               <div className='cate_wrapper'>
-                               <IonCardTitle className={home.savedDesignTitle}>
-                                  {design.name?.length != 0 ?
-                                    design.name : "Untitled"}
-                                </IonCardTitle>
-
-                                <IonButtons slot="end">
-                                  <IonButton
-                                    className={home.cardSendButton}
-                                    fill="solid"
-                                    size="small"
-                                    color="primary"
-                                    onClick={() => { openactionsheet(design) }}
-                                  >
-                                    <span className={app.materialSymbol}>cast</span>
-                                  </IonButton>
-
-                                  <IonButton
-                                    className={home.cardOptionsButton}
-                                    fill="solid"
-                                    size="small"
-                                    color="secondary"
-                                    onClick={() => { openactionsheet(design) }}
-                                  >
-                                    <span className={app.materialSymbol}>more_vert</span>
-                                  </IonButton>
-                                </IonButtons>
-                                {/* {
-                                              isSaveBoxToggle ?
-                                                  <button className={home.toggleBtn} color="undefined" onClick={() => {deleteCard(design)}}>
-                                                      <span className={app.material_symbols_outlined_box}>delete</span>
-                                                      DELETE DESIGN
-                                                  </button>
-                                              : null
-                                              } */}
-                               </div>
-                              </IonToolbar>
-                              <div>
-                                <IonToolbar className={home.categoriesToolbar}>
-                                { categoriesData.map((category:any) => (<IonChip className={home.categoryChip}>{category.trim()}</IonChip>))}
-                                
-                                </IonToolbar>
-                              </div>
-                            </div>
-
-                          </IonCard>
-                        
+                          <ThumbnailCards val={index} key={index} design={design} loadCanvas={loadCanvas}  deleteCard={toggleDelete} categoryData={categoriesData} />
+                        </>
                       )
-                     // }
-
-                     
-
-
+                    
                     })
                   )
                     :
-                    <Link to="/sizes">
+                    <Link to="/tab3">
                       <IonButton className={home.savedDesignCard}>
                         Create New
                       </IonButton>
