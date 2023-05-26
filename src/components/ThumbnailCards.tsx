@@ -34,10 +34,18 @@ import { ProgressContext } from '../Hooks/ProgressContext';
 
 import favoriteIcon from '../assets/icons/heart-rounded.svg';
 
-const ThumbnailCards = ({ val, design, loadCanvas, deleteCard }: any) => {
+import { SqllileQueries } from '../queries';
+import useSqlite from '../database';
+interface Category {
+    id: number;
+    name: string;
+  }
+
+
+const ThumbnailCards = ({ val, design, loadCanvas, deleteCard, categoryData}: any) => {
     const [isSaveBoxToggle, setSaveBoxToggle] = useState(false);
     const [present] = useIonActionSheet();
-    console.log(design)
+    //console.log(design)
     const modal = useRef<HTMLIonModalElement>(null);
     const input = useRef<HTMLIonInputElement>(null);
     const canvasdesign = useRef<HTMLCanvasElement>(null);
@@ -45,6 +53,34 @@ const ThumbnailCards = ({ val, design, loadCanvas, deleteCard }: any) => {
     const [ progress, updateProgress ] = useState(0);
     const [ showloader, setloader ] = useState(false);
     const [ imageArray, setImageArray ] = useState<any>([]);
+
+    const { db } = useSqlite();
+    const {LikeUnlikeCanvas, isopen } = SqllileQueries();
+   const [currentDesing, setcurrentDesing]: any = useState([]);
+    const [Liked, setLiked]: any = useState(false);
+    useEffect(() => {
+        const init = async () => {
+    
+          try {
+            console.log(isopen);
+            if (isopen) {
+              setcurrentDesing(design);
+            }
+          } catch (err) {
+            console.log(err);
+          }
+        };
+        init();
+      }, [isopen]);
+     
+      const like_design=async(id:Number,status:Number)=>{
+      
+        let data = await LikeUnlikeCanvas(id, status);
+        currentDesing.liked=data[0].liked;
+        setcurrentDesing(currentDesing);
+        setLiked(!Liked);
+    
+      }
    
 
     var epdArr:any,epdInd:any,palArr:any, curPal:any;
@@ -67,7 +103,7 @@ const ThumbnailCards = ({ val, design, loadCanvas, deleteCard }: any) => {
         let array_buffer = _base64ToArrayBuffer(image);
     }
 
-    const openactionsheet=() => {
+    const openactionsheet=(design:any) => {
         present({
             header: 'Actions',
             buttons: [
@@ -80,13 +116,14 @@ const ThumbnailCards = ({ val, design, loadCanvas, deleteCard }: any) => {
                 {
                     text: 'Add to favorites',
                     handler: ()=> {
-                        
+                       like_design(design.id, design.liked==1 ? 0 : 1);
                     },
                 },
                 {
                     text: 'Edit',
                     handler: ()=> {
                         
+                        loadCanvas(design);
                     },
                 },
                 {
@@ -167,8 +204,8 @@ const ThumbnailCards = ({ val, design, loadCanvas, deleteCard }: any) => {
       };
 
     const handleOpenModal = () => {
-        console.log(canvasdesign.current?.width)
-        console.log(canvasdesign.current?.height)
+        //console.log(canvasdesign.current?.width)
+        //console.log(canvasdesign.current?.height)
         canvasdesign.current?.getContext('2d')?.rotate(Math.PI / 2);
         epdInd = 0;
         palArr = [[[0, 0, 0], [255, 255, 255]],
@@ -197,7 +234,7 @@ const ThumbnailCards = ({ val, design, loadCanvas, deleteCard }: any) => {
     };
     
     function procImg(isLvl:any,isRed:any){
-        console.log("process")
+        //console.log("process")
         var dX:any, dY:any, dW:any, dH:any, sW:any, sH:any;
         const printcanvas = printdesign.current;
         const printcontaxt= printcanvas?.getContext('2d');
@@ -219,7 +256,7 @@ const ThumbnailCards = ({ val, design, loadCanvas, deleteCard }: any) => {
             return;
         }
         if(printcanvas){
-            console.log("print")
+            //console.log("print")
             printcanvas.width=dW
             printcanvas.height=dH
             var index=0;
@@ -287,7 +324,7 @@ const ThumbnailCards = ({ val, design, loadCanvas, deleteCard }: any) => {
                 }
             }
         
-    console.log(errArr)
+    //console.log(errArr)
     if(pDst){
     
         printdesign.current?.getContext('2d')?.putImageData(pDst,0,0)
@@ -447,7 +484,7 @@ const uploadImage=() => {
     var c:any = document.getElementById(`printimage${design.id}`);
     var w=dispW=c.width;
     var h=dispH=c.height;
-    console.log(w, h)
+    //console.log(w, h)
     var p=c.getContext('2d').getImageData(0,0,w,h);
     var a=new Array(w*h);
     var i=0;
@@ -457,10 +494,12 @@ const uploadImage=() => {
 dispX=0;
 pxInd=0;
 stInd=0;
+
+//Need to comment setImageArray(a) & setloader(true) both function when you create build for this App.
 setImageArray(a);
 setloader(true)
-// get_array(a);
-// console.log(a.toString());
+//Need to uncomment below function when you create build for this app.
+
 // BluetoothSerial.discoverUnpaired().then((devices) => {
 //     let epaperdisplayindex = devices.findIndex((x: any) => x.name == "epaperDisplay");
 //     if (epaperdisplayindex != -1) {
@@ -484,7 +523,8 @@ setloader(true)
 // })
  
 }
-    return (
+
+return (
         <>
             <IonCard className={home.card} key={val}>
                 <div className={home.thumbnailContainer} onClick={() => {loadCanvas(design)}}>
@@ -500,22 +540,25 @@ setloader(true)
                     </button>
                     */}
                      {showloader &&
-            <>
-             <ImageManipulator updateProgress={updateProgress} progress={progress} imgarray={imageArray} setloader={setloader} showloader={showloader} />
-            </>
+                    <>
+                    <ImageManipulator updateProgress={updateProgress} progress={progress} imgarray={imageArray} setloader={setloader} showloader={showloader} />
+                    </>
            
               
                     }
-                    <IonButton className={home.favoritesButton}>
-                        <IonIcon src={favoriteIcon}></IonIcon>
-                    </IonButton>
+                    
                 </div>
+
+                <IonButton className={home.favoritesButton} onClick={()=>{like_design(currentDesing.id, currentDesing.liked==1 ? 0 : 1)}}>
+                    <span className={app.materialSymbol}>favorite</span>
+                    {currentDesing.liked==1 ? 'liked': 'unliked'}
+                </IonButton>
 
                 <IonCardHeader>
                     <IonToolbar>
                         <IonCardTitle className={home.savedDesignTitle}>
-                            {design.isTitleInput?.length != 0 ?
-                            design.isTitleInput : "Untitled"}
+                            {design.name?.length != 0 ?
+                            design.name : "Untitled"}
                         </IonCardTitle>
 
                         <IonButtons slot="end">
@@ -524,7 +567,7 @@ setloader(true)
                                 fill="solid"
                                 size="small"
                                 color="primary"
-                                onClick={() => {openactionsheet()}}
+                                onClick={() => {openactionsheet(design)}}
                             >
                                 <span className={app.materialSymbol}>cast</span>
                             </IonButton>
@@ -534,7 +577,7 @@ setloader(true)
                                 fill="solid"
                                 size="small"
                                 color="secondary"
-                                onClick={() => {openactionsheet()}}
+                                onClick={() => {openactionsheet(design)}}
                             >
                                 <span className={app.materialSymbol}>more_vert</span>
                             </IonButton>
@@ -550,21 +593,16 @@ setloader(true)
                     </IonToolbar>
                 </IonCardHeader>
 
-                <IonCardContent>
 
-                        <IonChip>Undefined</IonChip>
-                        <IonChip>Sports</IonChip>
-                        <IonChip>Funny</IonChip>
-
-                        <IonChip>Kings</IonChip>
-                        <IonChip>Giants</IonChip>
-                        <IonChip>Warriors</IonChip>
-
+                <IonCardContent className={home.categoriesToolbar}>
+                    { categoryData.map((category:any) => (<IonChip className={home.categoryChip}>{ category?.length != 0 ? category.trim():'No Category'}</IonChip>))}
                 </IonCardContent>
+
+
+              
             </IonCard>
 
             <IonModal ref={modal} trigger={`open-modal${design.designId}`} onWillDismiss={(ev) => onWillDismiss(ev)} onIonModalDidPresent={handleOpenModal}>
-
           <IonHeader>
             <IonToolbar>
               <IonButtons slot="start">

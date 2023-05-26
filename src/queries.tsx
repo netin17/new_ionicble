@@ -197,17 +197,14 @@ const deleteCanvas = async (id:any): Promise<any> => {
       if (db) {
         db.isDBOpen().then(async (result) => {
           if (result && result.result) {
-           
             await db.run(`Delete FROM drawing WHERE id = ${id}`);
             const qValues: any = await db.query("SELECT * FROM drawing");
-            console.log(qValues?.values);
             db.close();
             resolve(qValues?.values);
           } else {
             await db.open();           
             await db.run(`Delete FROM drawing WHERE id = ${id}`);
             const qValues: any = await db.query("SELECT * FROM drawing");
-            console.log(qValues?.values);
             db.close();
             resolve(qValues?.values);           
           }
