@@ -37,7 +37,7 @@ import '@ionic/react/css/typography.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import app from './App.module.css'
+import app from './App.module.css';
 
 import useSqlite  from './database';
 import { useEffect } from 'react';

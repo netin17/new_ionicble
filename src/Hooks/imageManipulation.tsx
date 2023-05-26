@@ -280,6 +280,8 @@ const u_send = async (next: boolean) => {
   return new Promise((resolve, reject) => {
       // console.log(buffArr.toString())
 
+      //Need to uncomment below function when you create build for this app.
+
       // setTimeout(() => {
       //     return BluetoothSerial.write(buffArr).then((img_write) => {
       //       if(img_write=="OK!"){

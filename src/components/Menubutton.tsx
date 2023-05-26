@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import drawing from '../pages/Drawing.module.css';
 import { SqllileQueries } from '../queries';
 
+
 import useSqlite from '../database';
 const Menubutton = (props:any) => {
 
@@ -18,6 +19,7 @@ const Menubutton = (props:any) => {
     const [present] = useIonToast();
 
     const { db } = useSqlite();
+    const {updateCanvas,saveCanvas, isopen } = SqllileQueries();
  
     
 
@@ -44,11 +46,16 @@ const Menubutton = (props:any) => {
             //let tempArray: any = [];
             if(db){
                 if(typeof id != 'undefined'){
-                    props?.updateCanvas(id,canvasDesign); 
-                }
 
-                //history.push({ pathname: '/tab4' }); 
-                history.push('/tab4');
+                    await props?.updateCanvas(id,canvasDesign).then((result:any)=>{
+                                        
+                        history.push({pathname:'/tab4', state:{data:result}});
+    
+                       // history.push({pathname:'/tab4'});
+                    });   
+
+                    
+                }
                                
             }
 
@@ -75,10 +82,11 @@ const Menubutton = (props:any) => {
             if(db){
 
                 await props?.saveCanvas(canvasDesign).then((result:any)=>{
-                    
-                    history.push('/tab4');
+                                        
+                    history.push({pathname:'/tab4', state:{data:result}});
+
                 });                          
-                                              
+                   
             }
            
         }
