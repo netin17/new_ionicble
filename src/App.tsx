@@ -12,12 +12,16 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
+import { fabric } from 'fabric';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
 import Tab4 from './pages/Tab4';
 import Tab5 from './pages/Tab5';
 import Drawing from './pages/Drawing';
+
+import WebFont from 'webfontloader';
+
 import { SQLiteHook, useSQLite } from 'react-sqlite-hook';
 
 /* Core CSS required for Ionic components to work properly */
@@ -77,6 +81,75 @@ const App: React.FC = () => {
   sqlite = useSQLite();
   console.log(`$$$ in App sqlite.isAvailable  ${sqlite.isAvailable} $$$`);
 
+  const loadGoogleFonts = async (fontFamily:any) => {
+    WebFont.load({
+        google: {
+            families: fontFamily
+        }
+    });
+}
+
+useEffect(() => {
+    fabric.textureSize = 4096;
+    async function getData() {
+        let fontArray2 = [
+            "Acme",
+            "Artifika",
+            "Comic Neue",
+            "Just Another Hand",
+            "Black Han Sans",
+            "Playball",
+            "Poppins",
+            "Ultra",
+            "Rock Salt",
+            "Rubik Wet Paint",
+            "Titan One",
+            "Luckiest Guy",
+            "Creepster",
+            "Monoton",
+            "Audiowide",
+            "Atomic Age",
+            "Sigmar One",
+            "Black Ops One",
+            "Slackey",
+            "Rammetto One",
+            "Knewave",
+            "Rye",
+            "Bungee Inline",
+            "Rubik Moonrocks",
+            "Rampart One",
+            "Pirata One",
+            "UnifrakturMaguntia",
+            "Lemon",
+            "Silkscreen",
+            "Eater",
+            "Vast Shadow",
+            "Modak",
+            "Coiny",
+            "Faster One",
+            "Frijole",
+            "Gorditas",
+            "Ranchers",
+            "Climate Crisis",
+            "Monofett",
+            "Miniver",
+            "Plaster",
+            "Kavoon",
+            "Chicle",
+            "Sancreek",
+            "Sarina",
+            "Offside",
+            "Kumar One",
+            "Vampiro One",
+            "Fascinate",
+            "Ewert",
+            "Rubik Beastly",
+            "Oi"
+        ]
+        loadGoogleFonts(fontArray2)
+    }
+    getData()
+}, []);
 
   return (
     <IonApp>
