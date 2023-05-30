@@ -30,6 +30,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   const platform = Capacitor.getPlatform();
   const sqlite: SQLiteConnection = new SQLiteConnection(CapacitorSQLite)
   try {
+    
     if(platform === "web") {
       const jeepEl = document.createElement("jeep-sqlite");
       document.body.appendChild(jeepEl);
