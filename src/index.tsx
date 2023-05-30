@@ -30,7 +30,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   const platform = Capacitor.getPlatform();
   const sqlite: SQLiteConnection = new SQLiteConnection(CapacitorSQLite)
   try {
-    
+
     if(platform === "web") {
       const jeepEl = document.createElement("jeep-sqlite");
       document.body.appendChild(jeepEl);
@@ -47,6 +47,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       db = await sqlite.createConnection("db_ionicble", false, "no-encryption", 1, false);
     }
 
+    
     await db.open();
     const drawingRes: any =  await db.execute(`
     CREATE TABLE IF NOT EXISTS drawing (
