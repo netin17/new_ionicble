@@ -136,7 +136,6 @@ export const SqllileQueries = () => {
     }
   };
 
-
   const getCanvases = async (): Promise<any> => {
 
     try {
