@@ -1,3 +1,4 @@
+import React, { useState, useRef }  from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
@@ -17,6 +18,7 @@ import Tab3 from './pages/Tab3';
 import Tab4 from './pages/Tab4';
 import Tab5 from './pages/Tab5';
 import Drawing from './pages/Drawing';
+import { SQLiteHook, useSQLite } from 'react-sqlite-hook';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -39,50 +41,45 @@ import '@ionic/react/css/typography.css';
 import './theme/variables.css';
 import app from './App.module.css';
 
-import useSqlite  from './database';
+//import useSqlite  from './database';
 import { useEffect } from 'react';
 import { AiOutlineHome, AiOutlineSearch, AiOutlinePlus, AiOutlineFolder, AiOutlineUser } from "react-icons/ai";
+
+interface JsonListenerInterface {
+  jsonListeners: boolean,
+  setJsonListeners: React.Dispatch<React.SetStateAction<boolean>>,
+}
+interface existingConnInterface {
+  existConn: boolean,
+  setExistConn: React.Dispatch<React.SetStateAction<boolean>>,
+}
+
+// Singleton SQLite Hook
+export let sqlite: SQLiteHook;
+// Existing Connections Store
+export let existingConn: existingConnInterface;
+// Is Json Listeners used
+export let isJsonListeners: JsonListenerInterface;
+
 setupIonicReact();
 
 const App: React.FC = () => {
-  const { db, error, sqlite } = useSqlite();
-  useEffect(() => {
-    const createTables = async () => {
-      if (db) {
-        try {
-          await db.open();
-          await db.execute(`
-          CREATE TABLE IF NOT EXISTS drawing (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            canvasColor TEXT,
-            canvasHeight INTEGER,
-            canvasWidth INTEGER,
-            liked INTEGER,
-            designId TEXT,
-            designJson TEXT,
-            thumbnail TEXT,
-            categories TEXT
-          )
-        `);
-          
-          await db.execute(`
-          CREATE TABLE IF NOT EXISTS catagories (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT
-          )
-        `);
-        // await db.close();
-    // await sqlite?.closeConnection("db_ionicble", false);  
-        } catch (err) {
-          console.error(err);
-        }
-      }
-    };
+  const [existConn, setExistConn] = useState(false);
+  existingConn = {existConn: existConn, setExistConn: setExistConn};
 
-    createTables();
-  }, [db]);
-  return <IonApp>
+  // !!!!! if you do not want to use the progress events !!!!!
+  // since react-sqlite-hook 2.1.0
+  // sqlite = useSQLite()
+  // before
+  // sqlite = useSQLite({})
+  // !!!!!                                               !!!!!
+
+  sqlite = useSQLite();
+  console.log(`$$$ in App sqlite.isAvailable  ${sqlite.isAvailable} $$$`);
+
+
+  return (
+    <IonApp>
   <IonReactRouter>
     <IonTabs>
       <IonRouterOutlet>
@@ -128,7 +125,8 @@ const App: React.FC = () => {
           <Drawing />
         </Route>
   </IonReactRouter>
-</IonApp>;
-}
+</IonApp>
+  );
+};
 
 export default App;

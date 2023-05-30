@@ -14,7 +14,7 @@ import {
   IonList,
   IonCheckbox
 } from '@ionic/react';
-import useSqlite from '../database';
+//import useSqlite from '../database';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { SqllileQueries } from '../queries';
 interface Category {
@@ -35,7 +35,7 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
   const input = useRef<HTMLIonInputElement>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { db } = useSqlite();
+  //const { db } = useSqlite();
   const { insertCategory, getCategories, isopen } = SqllileQueries();
 
   useEffect(() => {
@@ -54,8 +54,10 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
 
   const categoriesList = async () => {
     let cat = await getCategories();
-    setCategories(cat)
+    console.log(JSON.stringify(setCategories(cat['values'])));
+    setCategories(cat['values'])
   }
+
 
   const confirm = () => {
     modal.current?.dismiss(input.current?.value, 'confirm');

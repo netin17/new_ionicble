@@ -282,23 +282,23 @@ const u_send = async (next: boolean) => {
 
       //Need to uncomment below function when you create build for this app.
 
-      // setTimeout(() => {
-      //     return BluetoothSerial.write(buffArr).then((img_write) => {
-      //       if(img_write=="OK!"){
-      //         return BluetoothSerial.clear().then((clearstatus) => {
+      setTimeout(() => {
+          return BluetoothSerial.write(buffArr).then((img_write) => {
+            if(img_write=="OK!"){
+              return BluetoothSerial.clear().then((clearstatus) => {
                 
-      //           buffArr = [];
-      //           return resolve(true)
-      //       })
-      //       }else{
-      //         alert(JSON.stringify(img_write))
-      //       }
+                buffArr = [];
+                return resolve(true)
+            })
+            }else{
+              alert(JSON.stringify(img_write))
+            }
              
-      //     }).catch((end_error) => {
-      //       alert(end_error)
-      //         return reject(false);
-      //     })
-      // }, 400);
+          }).catch((end_error) => {
+            alert(end_error)
+              return reject(false);
+          })
+      }, 400);
    
 
 setTimeout(() => {

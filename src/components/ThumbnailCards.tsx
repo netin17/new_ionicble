@@ -35,7 +35,7 @@ import { ProgressContext } from '../Hooks/ProgressContext';
 import favoriteIcon from '../assets/icons/heart-rounded.svg';
 
 import { SqllileQueries } from '../queries';
-import useSqlite from '../database';
+//import useSqlite from '../database';
 interface Category {
     id: number;
     name: string;
@@ -54,7 +54,7 @@ const ThumbnailCards = ({ val, design, loadCanvas, deleteCard, categoryData}: an
     const [ showloader, setloader ] = useState(false);
     const [ imageArray, setImageArray ] = useState<any>([]);
 
-    const { db } = useSqlite();
+    //const { db } = useSqlite();
     const {LikeUnlikeCanvas, isopen } = SqllileQueries();
    const [currentDesing, setcurrentDesing]: any = useState([]);
     const [Liked, setLiked]: any = useState(false);
@@ -75,10 +75,14 @@ const ThumbnailCards = ({ val, design, loadCanvas, deleteCard, categoryData}: an
      
       const like_design=async(id:Number,status:Number)=>{
       
-        let data = await LikeUnlikeCanvas(id, status);
-        currentDesing.liked=data[0].liked;
-        setcurrentDesing(currentDesing);
-        setLiked(!Liked);
+       await LikeUnlikeCanvas(id, status).then(function(result){
+
+            currentDesing.liked=result['values'][0].liked;
+            setcurrentDesing(currentDesing);
+            setLiked(!Liked);
+            
+        });
+       
     
       }
    

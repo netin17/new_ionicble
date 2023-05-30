@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState, useRef } from 'react';
 import { Link, useHistory ,useLocation} from 'react-router-dom';
 import './Tab4.css';
 import { SqllileQueries } from '../queries';
-import useSqlite from '../database';
+//import useSqlite from '../database';
 import home from '../Home.module.css';
 import app from '../App.module.css';
 
@@ -61,7 +61,7 @@ interface Category {
 const Tab4: React.FC = () => {
 
   const modal = useRef<HTMLIonModalElement>(null);
-  const { db } = useSqlite();
+  //const { db } = useSqlite();
   const {deleteCanvas, getCategories, getCanvases, LikeUnlikeCanvas, isopen } = SqllileQueries();
   const [categories, setCategories] = useState<Category[]>([]);
   const [canvases, setCanvases] = useState([]);
@@ -121,9 +121,10 @@ const Tab4: React.FC = () => {
   //get categories data from database and set categories using useState (setCategories) function.
   
   const categoriesList = async () => {
+   
     await getCategories().then(function(cat){
-      //console.log("categories---",cat);
-      setCategories(cat);
+      console.log("categories---", cat['values']);
+      setCategories(cat['values']);
 
     }).catch(e => {
       console.log(e)
@@ -139,14 +140,17 @@ const Tab4: React.FC = () => {
     });
   };
 
+
   //get drawing data from database and set canvases  using useState (setCanvases) function.
   const drawingList = async () => {
-    //console.log('drawingList')
+   
     await getCanvases().then(function(canvas){
-      //console.log("canvases---",canvas);
-      setCanvases(canvas);
-      setResult(canvas)
-      if (canvas.length == 0) {
+      console.log("canvas---", canvas['values']);
+      setCanvases(canvas['values']);
+      setResult(canvas['values']);
+      setcurrentCategory('all');
+
+      if (canvas['values'].length == 0) {
         setDesignHome(false)
       } else {
         setDesignHome(true)
@@ -155,10 +159,10 @@ const Tab4: React.FC = () => {
     }).catch(e => {
       console.log(e)
     });
-
-    setcurrentCategory('all')
-
+    
   }
+
+
 
   const loadCanvas = (design: any) => {
     setTitleInput(design.name);
