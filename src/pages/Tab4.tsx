@@ -243,24 +243,17 @@ useEffect(()=>{
 
   }
 
-  //console.log(canvases)
-  //console.log(result)
-
-
 },[currentCategory, query, shorting])
   
 
   const like_design=async(id:Number,status:Number)=>{
-    //console.log(id, status)
     await LikeUnlikeCanvas(id, status)
     let index:number=result.findIndex((x:any)=>x.id==id);
     if(index != -1){
       result[index].liked=status;
       setResult((oldvalues:any)=>[...oldvalues, oldvalues[index].liked=status])
-      //console.log("result", result)
     }
   }
-  //const [menuType, setMenuType] = useState('overlay');
   
   const deleteCards = async () => {
     console.log("inside deletecard::",isDeleteDesign.id)
@@ -268,16 +261,7 @@ useEffect(()=>{
     await deleteCanvas(isDeleteDesign.id).then((result:any)=>{
                                         
       history.push({pathname:'/tab4', state:{data:result}});
-
-      // let filteredArray = canvases?.filter((des:any)=> des.id !== isDeleteDesign.id);
-
-      // setCanvases([...filteredArray as []]);
-      // setcurrentCategory('all');
-
-      // if(filteredArray.length == 0 ) {
-      //   setDesignHome(false)
-      // }
-
+     
       setloader(!showloader);
 
       presentToast('top','Design deleted successfully')
@@ -289,12 +273,14 @@ useEffect(()=>{
   }
 
   const toggleDelete=(design:any)=>{
-    console.log("delete data---",design)
+    setTimeout(() => {
+      
       setDeleteToggle(!deleteToggle);
       !deleteToggle ? setDeleteDesign(design) :setDeleteDesign(null) ;
+    }, 500);
+     
   }
   
-  //******************************************************************************************************************************************* */
   return (
 
     <>
@@ -376,9 +362,9 @@ useEffect(()=>{
         </IonHeader>
        
         {
-          deleteToggle ?
+          deleteToggle &&
             <DeleteWarning deleteCards={deleteCards} toggleDelete={toggleDelete} isOpen={deleteToggle} isDeleteDesign={isDeleteDesign} />
-            :
+        }
             <IonContent  className={home.savedDesignsContainer} fullscreen={true}>
             <IonList
               className='card_outer'
@@ -429,7 +415,7 @@ useEffect(()=>{
 
 
             </IonContent>
-        }
+        
       </IonPage>
 
     </>

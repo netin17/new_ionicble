@@ -12,7 +12,8 @@ import {
   IonLabel,
   IonInput,
   IonList,
-  IonCheckbox
+  IonCheckbox,
+  useIonToast
 } from '@ionic/react';
 //import useSqlite from '../database';
 import { OverlayEventDetail } from '@ionic/core/components';
@@ -37,6 +38,7 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
   const [isModalOpen, setIsModalOpen] = useState(false);
   //const { db } = useSqlite();
   const { insertCategory, getCategories, isopen } = SqllileQueries();
+  const [presents] = useIonToast();
 
   useEffect(() => {
     const init = async () => {
@@ -66,11 +68,29 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
   const onWillDismiss = async (ev: CustomEvent<OverlayEventDetail>) => {
     
     if (ev.detail.role === 'confirm') {
-      await insertCategory(ev.detail.data)
-     await categoriesList()
-     setIsModalOpen(false)
+
+      if(ev.detail.data){
+
+        await insertCategory(ev.detail.data)
+        await categoriesList()
+        setIsModalOpen(false)
+      }else{
+
+        presentToast('top','Kindly enter the category name.')
+        setIsModalOpen(false)
+      }
+      
     }
   }
+
+  const presentToast = (position:any, message:any) => {
+    presents({
+        message: message,
+        duration: 1500,
+        position: position
+    });
+  };
+
   const handleCheckboxChange = (e: CustomEvent<CheckboxChangeEventDetail>, category: string) => {
     const isChecked = e.detail.checked;
 
