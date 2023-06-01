@@ -94,6 +94,8 @@ const Tab4: React.FC = () => {
   const [ isSearch, setIsSearch ] = useState(false);
   const [presents] = useIonToast();
 
+  const [shortData, setShortData] = useState([]);
+
   let history:any = useHistory();
 
   const location:any = useLocation();
@@ -193,7 +195,8 @@ useEffect(()=>{
   } else if (currentCategory === 'favorites') {
  
     setQuery('');
-    let filter= canvases?.filter(canvase => canvase['liked'] === 1);
+    let filter = [];
+    filter= canvases?.filter(canvase => canvase['liked'] === 1);
     setResult([...filter as []]);
 
   } else {
@@ -222,21 +225,85 @@ useEffect(()=>{
     shortingArray = result;
 
     if (shorting == 'new') {
-     let filter = shortingArray.slice(0).reverse().map((element: unknown) => { return element; });
-     setResult([...filter as []]);
+      //let filter = shortingArray.slice(0).reverse().map((element: unknown) => { return element; });
+
+      let filter = shortingArray.sort(function(a:any,b:any) {
+        
+        if (a.id > b.id) {
+          return -1;
+        }
+        if (a.id < b.id) {
+          return 1;
+        }
+        return 0;      
+      
+      });
+
+      setResult([...filter as []]);
+      dismiss();
+
+      
     }
 
     if (shorting == 'old') {
-      //result;
 
+      //let filter = shortingArray.slice(0).reverse().map((element: unknown) => { return element; });
+    
+      let filter = shortingArray.sort(function(a:any,b:any) {
+        
+        if (a.id < b.id) {
+          return -1;
+        }
+        if (a.id > b.id) {
+          return 1;
+        }
+        return 0;      
+      
+      });
+
+      setResult([...filter as []]);
+      dismiss();
+     
+      
     }
 
     if (shorting == 'A') {
-      // result = canvases;  
+      //let filter = shortingArray.slice(0).reverse().map((element: unknown) => { return element; }); 
+
+      console.log('hiiiAAAAA');
+      let filter = shortingArray.sort(function(a:any,b:any) {
+        
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;      
+      
+      });
+
+      setResult([...filter as []]);
+
+      dismiss();
+      
     }
 
     if (shorting == 'Z') {
-      setResult(result);
+
+      let filter = shortingArray.sort(function(a:any,b:any) {
+      if (a.name > b.name) {
+        return -1;
+      }
+      if (a.name < b.name) {
+        return 1;
+      }
+      return 0;      
+    
+    });
+
+    setResult([...filter as []]);
+    dismiss();
     }
 
    
@@ -247,12 +314,41 @@ useEffect(()=>{
   
 
   const like_design=async(id:Number,status:Number)=>{
-    await LikeUnlikeCanvas(id, status)
-    let index:number=result.findIndex((x:any)=>x.id==id);
-    if(index != -1){
-      result[index].liked=status;
-      setResult((oldvalues:any)=>[...oldvalues, oldvalues[index].liked=status])
-    }
+   
+    await LikeUnlikeCanvas(id, status).then((rows:any)=>{
+                                        
+      if(currentCategory == 'favorites'){
+
+        //Set Result.
+        let filter:any = result.filter((x:any)=>x.id!=id)
+        setResult(filter);
+
+        //Set Canvas.
+        let index:number=canvases.findIndex((x:any)=>x.id==id);
+        if(index != -1){
+
+          let newArray:any = [];
+          newArray = canvases;
+
+          //console.log(canvases[index]['liked'])
+          newArray[index].liked=status;
+          setCanvases(newArray);
+        }
+
+        
+      }else{
+  
+        let index:number=result.findIndex((x:any)=>x.id==id);
+        if(index != -1){
+          result[index].liked=status;
+          setResult((oldvalues:any)=>[...oldvalues])
+        }
+      }
+
+  });
+
+    
+    
   }
   
   const deleteCards = async () => {
@@ -305,8 +401,8 @@ useEffect(()=>{
               </IonToolbar>
 
               <IonToolbar className="pageSearchbarContainer">
-                <IonSearchbar className="custom" value={query} onIonChange={e => setQuery(e.detail.value?.toString())} placeholder="Search" showClearButton="focus" animated={false} ></IonSearchbar>
-                {/* <IonSearchbar value={query} onIonChange={e => setQuery(e.detail.value)} /> */}
+                {/* <IonSearchbar className="custom" value={query} onIonChange={e => setQuery(e.detail.value?.toString())} placeholder="Search" showClearButton="focus" animated={false} ></IonSearchbar> */}
+                <IonSearchbar value={query} onIonChange={e => setQuery(e.detail.value?.toString())} />
               </IonToolbar>
             </IonHeader>
 
@@ -387,7 +483,7 @@ useEffect(()=>{
                         return (
                        <>
 
-                          <ThumbnailCards val={index} key={index} design={design} loadCanvas={loadCanvas}  deleteCard={toggleDelete} categoryData={categoriesData} />
+                          <ThumbnailCards val={index} key={index} design={design} loadCanvas={loadCanvas}  deleteCard={toggleDelete} categoryData={categoriesData} like_design={like_design} />
                         </>
                       )
                     

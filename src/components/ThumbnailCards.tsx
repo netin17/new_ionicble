@@ -44,7 +44,7 @@ interface Category {
   }
 
 
-const ThumbnailCards = ({ val, design, loadCanvas, deleteCard, categoryData}: any) => {
+const ThumbnailCards = ({ val, design, loadCanvas, deleteCard, categoryData,like_design}: any) => {
     const [isSaveBoxToggle, setSaveBoxToggle] = useState(false);
     const [present] = useIonActionSheet();
     //console.log(design)
@@ -58,8 +58,9 @@ const ThumbnailCards = ({ val, design, loadCanvas, deleteCard, categoryData}: an
 
     //const { db } = useSqlite();
     const {LikeUnlikeCanvas, isopen } = SqllileQueries();
-   const [currentDesing, setcurrentDesing]: any = useState([]);
+   const [currentDesing, setcurrentDesing]: any = useState<any>([]);
     const [Liked, setLiked]: any = useState(false);
+    const [ isreferesh, setIsreferesh ] = useState<any>(false);
     let history:any = useHistory();
     useEffect(() => {
         const init = async () => {
@@ -76,20 +77,39 @@ const ThumbnailCards = ({ val, design, loadCanvas, deleteCard, categoryData}: an
         init();
       }, [isopen]);
      
-      const like_design=async(id:Number,status:Number)=>{
+    //   const like_design=async(id:Number,status:Number)=>{
       
-       await LikeUnlikeCanvas(id, status).then(function(result){
+    //     console.log('ID::', id, '---- Status::', status)
+    //    await LikeUnlikeCanvas(id, status).then(function(result){
 
-            currentDesing.liked=result['values'][0].liked;
-            setcurrentDesing(currentDesing);
-            setLiked(!Liked);
+    //     if(status == 0){
 
-            history.push({pathname:'/tab4', state:{data:result}});
+    //         design = [];
+    //         setIsreferesh(!isreferesh);
+    //         //history.push({pathname:'/tab4', state:{data:result}});
+    //         history.push({pathname:'/tab4', state:{data: result, category:'favorite'}});
+
+    //     }else{
+
+    //         design.liked=result['values'][0].liked;
+    //         setcurrentDesing(design);
+    //         setLiked(!Liked);
+    //         setIsreferesh(!isreferesh);
+    //        // history.push({pathname:'/tab4', state:{category:'favorite'}});
+    //         //history.push({pathname:'/tab4', state:{data:result}});
+    //     }
+
+    //     // console.log(result)
+    //     //     currentDesing.liked=result['values'][0].liked;
+    //     //     setcurrentDesing(currentDesing);
+    //     //     setLiked(!Liked);
+    //     //     setIsreferesh(!isreferesh);
+    //     //     //history.push({pathname:'/tab4', state:{data:result}});
             
-        });
+    //     });
        
     
-      }
+    //   }
    
 
     var epdArr:any,epdInd:any,palArr:any, curPal:any;
@@ -558,7 +578,7 @@ return (
                     
                 </div>
 
-                <IonButton className={currentDesing.liked==1 ? home.favoritesButton: home.unlike  } onClick={()=>{like_design(currentDesing.id, currentDesing.liked==1 ? 0 : 1)}}>
+                <IonButton className={design.liked==1 ? home.favoritesButton: home.unlike  } onClick={()=>{like_design(design.id, design.liked==1 ? 0 : 1)}}>
                     <span className={app.materialSymbol}>favorite</span>
                     {/* {currentDesing.liked==1 ? 'liked': 'unliked'} */}
                 </IonButton>
