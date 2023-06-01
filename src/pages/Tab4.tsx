@@ -394,11 +394,13 @@ useEffect(()=>{
                     })
                   )
                     :
-                    <Link to="/tab3">
+                  <div className='center_button'>
+                      <Link to="/tab3">
                       <IonButton className={home.savedDesignCard}>
                         Create New
                       </IonButton>
                     </Link>
+                  </div>
                 }
 
 

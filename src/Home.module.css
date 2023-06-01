@@ -4,10 +4,13 @@
     align-items: center;
     padding: 16px 16px 0;
 }
-.favoritesButton {
+.favoritesButton,.unlike {
     position: absolute;
     top: 8px;
     right: 8px;
+}
+ion-button.unlike{
+    --background:#b5b5b5;	
 }
 /*
 #pageTitleContainer {

@@ -18,6 +18,7 @@ import {
 //import useSqlite from '../database';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { SqllileQueries } from '../queries';
+import cate from './Categories.module.css'
 interface Category {
   id: number;
   name: string;
@@ -110,16 +111,16 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
         {categories?.map((cat, index) => {
           return (
             <IonItem key={index}>
-              <IonCheckbox
+           <IonLabel className={cate.label}>   <IonCheckbox
                 value={cat.name}
                 checked={selectedCategories.includes(cat.name)}
                 onIonChange={(e) => handleCheckboxChange(e, cat.name)}
-                slot="start"><IonLabel>{cat.name}</IonLabel></IonCheckbox>
+                slot="start"></IonCheckbox> {cat.name}</IonLabel>
             </IonItem>
           )
         })}
       </IonList>
-      +<IonButton onClick={() => setIsModalOpen(true)} expand="block"> Add New</IonButton>
+      <IonButton onClick={() => setIsModalOpen(true)} expand="block"> Add New</IonButton>
       <IonModal ref={modal} isOpen={isModalOpen} onWillDismiss={(ev) => onWillDismiss(ev)}>
         <IonHeader>
           <IonToolbar>

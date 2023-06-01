@@ -178,19 +178,19 @@ useEffect(() => {
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
         <IonTabButton tab="tab1" href="/tab1">
-        <AiOutlineHome aria-hidden="true" />
+        <AiOutlineHome aria-hidden="true" size="18" />
         </IonTabButton>
         <IonTabButton tab="tab2" href="/tab2">
-        <AiOutlineSearch />
+        <AiOutlineSearch  size="18"/>
         </IonTabButton>
         <IonTabButton tab="tab3" href="/tab3">
-        <AiOutlinePlus />
+        <AiOutlinePlus  size="18"/>
         </IonTabButton>
         <IonTabButton tab="tab4" href="/tab4">
-        <AiOutlineFolder />
+        <AiOutlineFolder size="18" />
         </IonTabButton>
         <IonTabButton tab="tab5" href="/tab5">
-        <AiOutlineUser />
+        <AiOutlineUser size="18" />
         </IonTabButton>
       </IonTabBar>
     </IonTabs>

@@ -1,0 +1,5 @@
+ion-label.label{
+    --borderBottom: unset;
+    display: flex !important;
+    align-items: center;
+}

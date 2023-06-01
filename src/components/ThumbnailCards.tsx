@@ -1,4 +1,5 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
+import { Link, useHistory ,useLocation} from 'react-router-dom';
 import { trash, send, close } from 'ionicons/icons';
 import {
         IonCard,
@@ -35,6 +36,7 @@ import { ProgressContext } from '../Hooks/ProgressContext';
 import favoriteIcon from '../assets/icons/heart-rounded.svg';
 
 import { SqllileQueries } from '../queries';
+
 //import useSqlite from '../database';
 interface Category {
     id: number;
@@ -58,6 +60,7 @@ const ThumbnailCards = ({ val, design, loadCanvas, deleteCard, categoryData}: an
     const {LikeUnlikeCanvas, isopen } = SqllileQueries();
    const [currentDesing, setcurrentDesing]: any = useState([]);
     const [Liked, setLiked]: any = useState(false);
+    let history:any = useHistory();
     useEffect(() => {
         const init = async () => {
     
@@ -80,6 +83,8 @@ const ThumbnailCards = ({ val, design, loadCanvas, deleteCard, categoryData}: an
             currentDesing.liked=result['values'][0].liked;
             setcurrentDesing(currentDesing);
             setLiked(!Liked);
+
+            history.push({pathname:'/tab4', state:{data:result}});
             
         });
        
@@ -553,9 +558,9 @@ return (
                     
                 </div>
 
-                <IonButton className={home.favoritesButton} onClick={()=>{like_design(currentDesing.id, currentDesing.liked==1 ? 0 : 1)}}>
+                <IonButton className={currentDesing.liked==1 ? home.favoritesButton: home.unlike  } onClick={()=>{like_design(currentDesing.id, currentDesing.liked==1 ? 0 : 1)}}>
                     <span className={app.materialSymbol}>favorite</span>
-                    {currentDesing.liked==1 ? 'liked': 'unliked'}
+                    {/* {currentDesing.liked==1 ? 'liked': 'unliked'} */}
                 </IonButton>
 
                 <IonCardHeader>

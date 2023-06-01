@@ -299,7 +299,7 @@ const [menuType, setMenuType] = useState('overlay');
                                 panning={{disabled: disablePanning}}
                             >
                                 <TransformComponent>
-                                    <canvas id="canvas" />
+                                    <canvas id="canvas" style={{margin:"auto"}}/>
                                 </TransformComponent>
 
                             </TransformWrapper>
