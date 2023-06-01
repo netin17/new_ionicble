@@ -12,11 +12,13 @@ import {
   IonLabel,
   IonInput,
   IonList,
-  IonCheckbox
+  IonCheckbox,
+  useIonToast
 } from '@ionic/react';
-import useSqlite from '../database';
+//import useSqlite from '../database';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { SqllileQueries } from '../queries';
+import cate from './Categories.module.css'
 interface Category {
   id: number;
   name: string;
@@ -35,8 +37,9 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
   const input = useRef<HTMLIonInputElement>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { db } = useSqlite();
+  //const { db } = useSqlite();
   const { insertCategory, getCategories, isopen } = SqllileQueries();
+  const [presents] = useIonToast();
 
   useEffect(() => {
     const init = async () => {
@@ -54,8 +57,10 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
 
   const categoriesList = async () => {
     let cat = await getCategories();
-    setCategories(cat)
+    console.log(JSON.stringify(setCategories(cat['values'])));
+    setCategories(cat['values'])
   }
+
 
   const confirm = () => {
     modal.current?.dismiss(input.current?.value, 'confirm');
@@ -64,11 +69,29 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
   const onWillDismiss = async (ev: CustomEvent<OverlayEventDetail>) => {
     
     if (ev.detail.role === 'confirm') {
-      await insertCategory(ev.detail.data)
-     await categoriesList()
-     setIsModalOpen(false)
+
+      if(ev.detail.data){
+
+        await insertCategory(ev.detail.data)
+        await categoriesList()
+        setIsModalOpen(false)
+      }else{
+
+        presentToast('top','Kindly enter the category name.')
+        setIsModalOpen(false)
+      }
+      
     }
   }
+
+  const presentToast = (position:any, message:any) => {
+    presents({
+        message: message,
+        duration: 1500,
+        position: position
+    });
+  };
+
   const handleCheckboxChange = (e: CustomEvent<CheckboxChangeEventDetail>, category: string) => {
     const isChecked = e.detail.checked;
 
@@ -88,16 +111,16 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
         {categories?.map((cat, index) => {
           return (
             <IonItem key={index}>
-              <IonCheckbox
+           <IonLabel className={cate.label}>   <IonCheckbox
                 value={cat.name}
                 checked={selectedCategories.includes(cat.name)}
                 onIonChange={(e) => handleCheckboxChange(e, cat.name)}
-                slot="start"><IonLabel>{cat.name}</IonLabel></IonCheckbox>
+                slot="start"></IonCheckbox> {cat.name}</IonLabel>
             </IonItem>
           )
         })}
       </IonList>
-      +<IonButton onClick={() => setIsModalOpen(true)} expand="block"> Add New</IonButton>
+      <IonButton onClick={() => setIsModalOpen(true)} expand="block"> Add New</IonButton>
       <IonModal ref={modal} isOpen={isModalOpen} onWillDismiss={(ev) => onWillDismiss(ev)}>
         <IonHeader>
           <IonToolbar>

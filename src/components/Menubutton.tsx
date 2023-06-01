@@ -51,7 +51,6 @@ const Menubutton = (props:any) => {
                                         
                         history.push({pathname:'/tab4', state:{data:result}});
     
-                       // history.push({pathname:'/tab4'});
                     });   
 
                     

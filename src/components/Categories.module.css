@@ -1,0 +1,9 @@
+ion-label.label{
+    --borderBottom: unset;
+    display: flex !important;
+    align-items: center;
+}
+ion-list{
+max-height: 300px;
+overflow: auto !important; 
+}
