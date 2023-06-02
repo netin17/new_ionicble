@@ -107,7 +107,7 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
   return (
     <IonContent className="ion-padding">
       <IonTitle>Categories</IonTitle>
-      <IonList>
+      <IonList className='cate_lists'>
         {categories?.map((cat, index) => {
           return (
             <IonItem key={index}>

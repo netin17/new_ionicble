@@ -3,7 +3,7 @@ ion-label.label{
     display: flex !important;
     align-items: center;
 }
-ion-list{
+ion-list.cate_lists{
 max-height: 300px;
 overflow: auto !important; 
 }
