@@ -101,19 +101,23 @@ export const SqllileQueries = () => {
   const getCategories = async (): Promise<any> => {
 
     try {
+      console.log('step1')
       const ret = await sqlite.checkConnectionsConsistency();
       let db: SQLiteDBConnection;
       if(ret.result){
+        console.log('step1 if')
         db = await sqlite.retrieveConnection("db_ionicble", false);
       }else{
-
+        console.log('step1 else')
         db = await sqlite.createConnection("db_ionicble", false, "no-encryption", 1, false);
       }
 
       if(db){
+        console.log('step1 db')
         await db.open();
         const qValues : any= await db.query('SELECT * FROM catagories');
         console.log(qValues);
+        console.log('step1',qValues)
         return qValues;
         
         //await db.close();
@@ -122,7 +126,8 @@ export const SqllileQueries = () => {
       }else{
 
         console.log('db not  available....');
-
+        
+        console.log('step1 no db')
       }
     
       
@@ -431,34 +436,23 @@ const LikeUnlikeCanvas = async (id:any, status:any): Promise<any> => {
 
 const deleteCanvas = async (id:any): Promise<any> => {
 
-  console.log('step1')
   try {
-    console.log('step2')
      const ret = await sqlite.checkConnectionsConsistency();
      let db: SQLiteDBConnection;
       if(ret.result){
-        console.log('step3')
         db = await sqlite.retrieveConnection("db_ionicble", false);
       }else{
-        console.log('step3')
         db = await sqlite.createConnection("db_ionicble", false, "no-encryption", 1, false);
       }
 
-      console.log('step4')
     setIsOpen(true)
     await db.open();
-    console.log('step5')
     await db.run(`Delete FROM drawing WHERE id = ${id}`);
-    console.log('step6')
     let qValuess: any =[]
     qValuess = await db.query("SELECT * FROM drawing"); 
     await db.close();
-    sqlite.closeConnection("db_ionicble");
-    
-    console.log('step7')
     return qValuess; 
-    console.log('step8')  
-    await db.close();
+    
     //sqlite.closeConnection("db_ionicble");
     
   }

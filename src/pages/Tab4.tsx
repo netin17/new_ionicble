@@ -359,10 +359,13 @@ useEffect(()=>{
   const deleteCards = async () => {
     console.log("inside deletecard::",isDeleteDesign.id)
    
-    await deleteCanvas(isDeleteDesign.id).then((result:any)=>{
+    await deleteCanvas(isDeleteDesign.id).then((rows:any)=>{
                                         
-      history.push({pathname:'/tab4', state:{data:result}});
-     
+      //history.push({pathname:'/tab4', state:{data:result}});
+
+      let filter:any = result.filter((x:any)=>x.id!=isDeleteDesign.id)
+      setResult(filter);
+
       setloader(!showloader);
 
       presentToast('top','Design deleted successfully')
