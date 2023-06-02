@@ -207,7 +207,38 @@ useEffect(()=>{
   } else {
 
     setQuery('');
-    let filter = canvases?.filter(canvase => canvase['categories'] == currentCategory);
+    //let filter = canvases?.filter(canvase => canvase['categories'] == currentCategory);
+
+    let filter = canvases?.filter(canvase => {
+
+      let singleCanvasData:any;
+      
+      singleCanvasData = canvase['categories'];
+     
+      var categoryStatus = singleCanvasData.includes(',');
+
+      if(categoryStatus === true){
+
+          if(singleCanvasData.includes(currentCategory+',')){
+
+            return singleCanvasData.includes(currentCategory+',');
+
+          }else if(singleCanvasData.includes(','+currentCategory)){
+
+
+            return singleCanvasData.includes(','+currentCategory);
+
+          }
+        return ; 
+
+      }else{
+
+        return canvase['categories'] == currentCategory
+
+      }
+    });
+
+
     setResult([...filter as []]);
   }
 
