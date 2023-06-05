@@ -2111,6 +2111,8 @@
     "@types/node" "*"
 
 "@types/cordova@latest":
+  "integrity" "sha512-AtBm1IAqqXsXszJe6XxuA2iXLhraNCj25p/FHRyikPeW0Z3YfgM6qzWb+VJglJTmZc5lqRNy84cYM/sQI5v6Vw=="
+  "resolved" "https://registry.npmjs.org/@types/cordova/-/cordova-11.0.0.tgz"
   "version" "11.0.0"
 
 "@types/eslint-scope@^3.7.3":

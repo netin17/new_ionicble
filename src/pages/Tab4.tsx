@@ -207,7 +207,38 @@ useEffect(()=>{
   } else {
 
     setQuery('');
-    let filter = canvases?.filter(canvase => canvase['categories'] == currentCategory);
+    //let filter = canvases?.filter(canvase => canvase['categories'] == currentCategory);
+
+    let filter = canvases?.filter(canvase => {
+
+      let singleCanvasData:any;
+      
+      singleCanvasData = canvase['categories'];
+     
+      var categoryStatus = singleCanvasData.includes(',');
+
+      if(categoryStatus === true){
+
+          if(singleCanvasData.includes(currentCategory+',')){
+
+            return singleCanvasData.includes(currentCategory+',');
+
+          }else if(singleCanvasData.includes(','+currentCategory)){
+
+
+            return singleCanvasData.includes(','+currentCategory);
+
+          }
+        return ; 
+
+      }else{
+
+        return canvase['categories'] == currentCategory
+
+      }
+    });
+
+
     setResult([...filter as []]);
   }
 
@@ -359,10 +390,13 @@ useEffect(()=>{
   const deleteCards = async () => {
     console.log("inside deletecard::",isDeleteDesign.id)
    
-    await deleteCanvas(isDeleteDesign.id).then((result:any)=>{
+    await deleteCanvas(isDeleteDesign.id).then((rows:any)=>{
                                         
-      history.push({pathname:'/tab4', state:{data:result}});
-     
+      //history.push({pathname:'/tab4', state:{data:result}});
+
+      let filter:any = result.filter((x:any)=>x.id!=isDeleteDesign.id)
+      setResult(filter);
+
       setloader(!showloader);
 
       presentToast('top','Design deleted successfully')
