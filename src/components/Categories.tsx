@@ -46,7 +46,8 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
       try {
         console.log(isopen)
         if (isopen) {
-          categoriesList()
+          categoriesList();
+          setIsModalOpen(false);
         }
       } catch (err) {
         console.log(err)
@@ -65,6 +66,16 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
   const confirm = () => {
     modal.current?.dismiss(input.current?.value, 'confirm');
   }
+
+  const cancel = () => {
+    console.log('hiiiiiiiiiii')
+    modal.current?.dismiss();
+    console.log('hiiiiiiiiiii11')
+    setIsModalOpen(false);
+    console.log('hiiiiiiiiiii22')
+  }
+
+
 
   const onWillDismiss = async (ev: CustomEvent<OverlayEventDetail>) => {
     
@@ -125,7 +136,7 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonButton onClick={() => modal.current?.dismiss()}>Cancel</IonButton>
+              <IonButton onClick={() => cancel()}>Cancel</IonButton>
             </IonButtons>
             <IonTitle>Welcome</IonTitle>
             <IonButtons slot="end">
