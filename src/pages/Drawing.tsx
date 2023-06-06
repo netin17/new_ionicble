@@ -105,6 +105,7 @@ function handleDeselecting(obj:any){
 
 
 }, [cancelToggle]);
+
 useEffect(() => {
   const init = async () => {
     try {
@@ -115,6 +116,7 @@ useEffect(() => {
   };
   init();
 }, [isopen])
+
 const initCanvas = () => {
 
   let canvasWidth = parseInt(dimension.width);
@@ -134,7 +136,6 @@ const initCanvas = () => {
         }
 
       }
-
       
       canvasWidth=parseInt(isCanvasDesign.canvasWidth);
       canvasHeight = canvasWidth * (isCanvasDesign.canvasHeight/isCanvasDesign.canvasWidth);
