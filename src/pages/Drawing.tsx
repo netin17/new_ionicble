@@ -105,6 +105,7 @@ function handleDeselecting(obj:any){
 
 
 }, [cancelToggle]);
+
 useEffect(() => {
   const init = async () => {
     try {
@@ -115,12 +116,27 @@ useEffect(() => {
   };
   init();
 }, [isopen])
+
 const initCanvas = () => {
 
   let canvasWidth = parseInt(dimension.width);
   let canvasHeight= 0;
   if(isCanvasDesign) {
       console.log(isCanvasDesign);
+
+      //If canvas exist then set selected categories. 
+      if(isCanvasDesign.categories){
+
+        if(isCanvasDesign.categories.indexOf(',') > -1){
+          
+          setSelectedCategories(isCanvasDesign.categories.split(','));
+         
+        }else{
+          setSelectedCategories([isCanvasDesign.categories]);
+        }
+
+      }
+      
       canvasWidth=parseInt(isCanvasDesign.canvasWidth);
       canvasHeight = canvasWidth * (isCanvasDesign.canvasHeight/isCanvasDesign.canvasWidth);
   } else {
