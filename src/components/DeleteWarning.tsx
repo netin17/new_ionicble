@@ -20,7 +20,7 @@ const DeleteWarning = (props:any) => {
            <IonAlert
            isOpen={showpopupp}
            header="Confirm delete"
-           message={`Are you sure you want to delete this designnn?`}
+           message={`Are you sure you want to delete this design?`}
         buttons={[
           {
             text: 'Cancel',

@@ -19,6 +19,8 @@ import {
 import { OverlayEventDetail } from '@ionic/core/components';
 import { SqllileQueries } from '../queries';
 import cate from './Categories.module.css'
+
+import { App } from '@capacitor/app';
 interface Category {
   id: number;
   name: string;
@@ -56,6 +58,12 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
     init();
   }, [isopen])
 
+  App.addListener('backButton', ({ canGoBack }) => {
+    if(canGoBack){
+      setIsModalOpen(false);
+    } 
+  });
+
   const categoriesList = async () => {
     let cat = await getCategories();
     console.log(JSON.stringify(setCategories(cat['values'])));
@@ -68,11 +76,8 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
   }
 
   const cancel = () => {
-    console.log('hiiiiiiiiiii')
     modal.current?.dismiss();
-    console.log('hiiiiiiiiiii11')
     setIsModalOpen(false);
-    console.log('hiiiiiiiiiii22')
   }
 
 

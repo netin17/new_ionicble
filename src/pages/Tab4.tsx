@@ -274,9 +274,9 @@ useEffect(()=>{
         return 0;      
       
       });
-
-      setResult([...filter as []]);
       dismiss();
+      setResult([...filter as []]);
+     
 
       
     }
@@ -296,9 +296,9 @@ useEffect(()=>{
         return 0;      
       
       });
-
-      setResult([...filter as []]);
       dismiss();
+      setResult([...filter as []]);
+     
      
       
     }
@@ -306,7 +306,6 @@ useEffect(()=>{
     if (shorting == 'A') {
       //let filter = shortingArray.slice(0).reverse().map((element: unknown) => { return element; }); 
 
-      console.log('hiiiAAAAA');
       let filter = shortingArray.sort(function(a:any,b:any) {
         
         if (a.name < b.name) {
@@ -318,10 +317,10 @@ useEffect(()=>{
         return 0;      
       
       });
-
+      dismiss();
       setResult([...filter as []]);
 
-      dismiss();
+      
       
     }
 
@@ -337,11 +336,10 @@ useEffect(()=>{
       return 0;      
     
     });
-
-    setResult([...filter as []]);
     dismiss();
+    setResult([...filter as []]);
+    
     }
-
    
 
   }
@@ -388,6 +386,7 @@ useEffect(()=>{
   }
   
   const deleteCards = async () => {
+    //alert('In delete cards ::')
     console.log("inside deletecard::",isDeleteDesign.id)
    
     await deleteCanvas(isDeleteDesign.id).then((rows:any)=>{
@@ -408,6 +407,8 @@ useEffect(()=>{
   }
 
   const toggleDelete=(design:any)=>{
+
+    //alert('in toggleDelete function::');
     setTimeout(() => {
       
       setDeleteToggle(!deleteToggle);
