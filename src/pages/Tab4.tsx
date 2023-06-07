@@ -115,7 +115,7 @@ const Tab4: React.FC = () => {
       }
     };
     init();
-  }, [isopen,data,showloader]);
+  }, [isopen,data,showloader,isDeleteDesign]);
 
   function dismiss() {
     modal.current?.dismiss();
@@ -409,11 +409,8 @@ useEffect(()=>{
   const toggleDelete=(design:any)=>{
 
     //alert('in toggleDelete function::');
-    setTimeout(() => {
-      
-      setDeleteToggle(!deleteToggle);
-      !deleteToggle ? setDeleteDesign(design) :setDeleteDesign(null) ;
-    }, 500);
+    setDeleteToggle(!deleteToggle);
+    !deleteToggle ? setDeleteDesign(design) :setDeleteDesign(null) ;
      
   }
   
