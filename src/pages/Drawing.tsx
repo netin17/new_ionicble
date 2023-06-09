@@ -32,6 +32,7 @@ import 'fabric-history';
 import * as _ from 'lodash';
 import { CanvasStore } from "../Store/CanvasStore";
 import { SqllileQueries } from '../queries';
+import { App } from '@capacitor/app';
 declare global {
   interface Window {
       canvas: any;
@@ -69,35 +70,41 @@ const Drawing: React.FC = () => {
   let history = useHistory();
   const ref:any = useRef<ReactZoomPanPinchRef | null>(null);
 
+  App.addListener('backButton', ({ canGoBack }) => {
+    if(canGoBack){
+      console.log('Drawing page');
+      
+    } 
+  });
 
   canvas?.on({
     // 'selection:updated': HandleElement,
     'selection:created': handleSelection
-});
+  });
 
-canvas?.on({
-    'after:render': (event:any) => {
-        if(canvas?.getActiveObject()?.isEditing) {
-            setShowButtons(false);
-        }
-    }
-});
+  canvas?.on({
+      'after:render': (event:any) => {
+          if(canvas?.getActiveObject()?.isEditing) {
+              setShowButtons(false);
+          }
+      }
+  });
 
-canvas?.on({
-    // 'selection:updated': HandleElement,
-    'before:selection:cleared': handleDeselecting
-});
+  canvas?.on({
+      // 'selection:updated': HandleElement,
+      'before:selection:cleared': handleDeselecting
+  });
 
-function handleSelection(obj:any){
-    //Handle the object here
-    setDisablePanning(true);
-}
+  function handleSelection(obj:any){
+      //Handle the object here
+      setDisablePanning(true);
+  }
 
-function handleDeselecting(obj:any){
-    //Handle the object here
-    setDisablePanning(false);
-    setShowButtons(true);
-}
+  function handleDeselecting(obj:any){
+      //Handle the object here
+      setDisablePanning(false);
+      setShowButtons(true);
+  }
 
   useEffect(() => {
 

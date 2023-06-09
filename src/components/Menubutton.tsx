@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 // import { storage } from "../Hooks/useStorage";
 import drawing from '../pages/Drawing.module.css';
 import { SqllileQueries } from '../queries';
-
+import { App } from '@capacitor/app';
 
 import useSqlite from '../database';
 const Menubutton = (props:any) => {
@@ -21,7 +21,12 @@ const Menubutton = (props:any) => {
     const { db } = useSqlite();
     const {updateCanvas,saveCanvas, isopen } = SqllileQueries();
  
-    
+    App.addListener('backButton', ({ canGoBack }) => {
+        if(canGoBack){
+            console.log('Menubutton page');
+            
+        } 
+    });
 
     const storeCanvas = async () => {
         if (isCanvasDesign) {

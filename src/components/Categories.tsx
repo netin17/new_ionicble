@@ -86,9 +86,12 @@ const Categories: React.FC<CategoriesProps> = ({setSelectedCategories, selectedC
     
     if (ev.detail.role === 'confirm') {
 
-      if(ev.detail.data){
+      let categoryText  = ev.detail.data;
+      let categoryTextRemoveSpace = categoryText.replace(/^\s+|\s+$/gm,'');
+      
+      if(categoryTextRemoveSpace){
 
-        await insertCategory(ev.detail.data)
+        await insertCategory(categoryTextRemoveSpace)
         await categoriesList()
         setIsModalOpen(false)
       }else{

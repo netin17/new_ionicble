@@ -15,6 +15,7 @@ import { CanvasStore } from "../Store/CanvasStore";
 import { useIonViewWillEnter } from "@ionic/react";
 import ImageManipulator from '../Hooks/imageManipulation';
 import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial';
+import { App } from '@capacitor/app';
 
 import {
   IonHeader,
@@ -138,6 +139,14 @@ const Tab4: React.FC = () => {
     });
     
   }
+
+  App.addListener('backButton', ({ canGoBack }) => {
+    if(canGoBack){
+      console.log('Tab4.tsx page')
+    } 
+  });
+
+
 
   const presentToast = (position:any, message:any) => {
     presents({
