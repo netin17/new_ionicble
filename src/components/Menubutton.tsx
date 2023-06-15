@@ -7,6 +7,7 @@ import drawing from '../pages/Drawing.module.css';
 import { SqllileQueries } from '../queries';
 import { App } from '@capacitor/app';
 
+
 import useSqlite from '../database';
 const Menubutton = (props:any) => {
 
@@ -21,15 +22,21 @@ const Menubutton = (props:any) => {
     const { db } = useSqlite();
     const {updateCanvas,saveCanvas, isopen } = SqllileQueries();
  
-    App.addListener('backButton', ({ canGoBack }) => {
-        if(canGoBack){
-            console.log('Menubutton page');
-            
-        } 
-    });
-
     const storeCanvas = async () => {
+
+        App.addListener('backButton', ({ canGoBack }) => {
+            if(canGoBack){
+            console.log('Menu Button.tsx page')
+            setTitleInput(isTitleInput);
+            } 
+        });
+
+
+        var setTitle = (document.getElementById('inputTitle') as HTMLInputElement).value; 
+
         if (isCanvasDesign) {
+            var setTitle = (document.getElementById('inputTitle') as HTMLInputElement).value; 
+
             let designJson: any = JSON.stringify(canvas.toJSON());
             let thumbnail: any = canvas.toDataURL();
             let designId: any = Math.random();
@@ -64,6 +71,10 @@ const Menubutton = (props:any) => {
             }
 
         } else {
+
+            var setTitle = (document.getElementById('inputTitle') as HTMLInputElement).value; 
+            //console.log(isTitleInput);
+
             let designJson: any = JSON.stringify(canvas.toJSON());
             let thumbnail: any = canvas.toDataURL();
             let designId: any = Math.random();
@@ -75,7 +86,7 @@ const Menubutton = (props:any) => {
                 designJson,
                 thumbnail,
                 designId,
-                name: isTitleInput,
+                name: setTitle,
                 liked:null,
                 canvasColor,
                 canvasWidth,

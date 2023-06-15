@@ -69,6 +69,7 @@ const Drawing: React.FC = () => {
   const { updateCanvas, saveCanvas, isopen } = SqllileQueries();
   let history = useHistory();
   const ref:any = useRef<ReactZoomPanPinchRef | null>(null);
+  const {isTitleInput, setTitleInput}:any = useContext(CanvasStore);
 
   App.addListener('backButton', ({ canGoBack }) => {
     if(canGoBack){
@@ -221,32 +222,33 @@ const toggleCancel = () => {
 
   
   const handleDeactivateObjClick = (event:any) => {
-    console.log(event)
-    if(event.target.className === 'Drawing_HandleCanvas__RjfdC') {
-        setShowButtons(true);
-        canvas.discardActiveObject()
-        canvas.renderAll()
-    }
-}
-const yesCancel = () => {
-        //history.replace("/");
-        if(isCanvasDesign?.designJson ) {
-            presentToast('top','Changes not saved')
-            history.go(-1);
-           
-        } else{
-            history.push('/tab4');
-            
-        }
+      console.log(event)
+      if(event.target.className === 'Drawing_HandleCanvas__RjfdC') {
+          setShowButtons(true);
+          canvas.discardActiveObject()
+          canvas.renderAll()
+      }
+  }
+  const yesCancel = () => {
+      //history.replace("/");
+      if(isCanvasDesign?.designJson ) {
+          presentToast('top','Changes not saved')
+          history.go(-1);
+        
+      } else{
+          history.push('/tab4');
+          
+      }
     }
 
-const presentToast = (position:any, message:any) => {
-  present({
-    message: message,
-    duration: 1500,
-    position: position
-  });
-};
+    
+  const presentToast = (position:any, message:any) => {
+    present({
+      message: message,
+      duration: 1500,
+      position: position
+    });
+  };
 function useOutsideAlerter(ref:any) {
   useEffect(() => {
 

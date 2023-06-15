@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { IonAlert } from '@ionic/react';
 // import cancelwarning from './CancelWarning.module.css'
+import { App } from '@capacitor/app';
 
 const CancelWarning = (props:any) => {
     const [showpopupp, setpopup]=useState(false);
@@ -14,6 +15,15 @@ const CancelWarning = (props:any) => {
           setIsMounted(false);
         };
     }, [isMounted]);
+
+    App.addListener('backButton', ({ canGoBack }) => {
+      if(canGoBack){
+        console.log('Cancel Warning page');        
+      } 
+    });
+
+
+
     return (
         <>
          <>
