@@ -35,7 +35,6 @@ const Menubutton = (props:any) => {
         let titleTextRemoveSpace = setTitle.replace(/^\s+|\s+$/gm,'');
         
         if(titleTextRemoveSpace){
-
             if (isCanvasDesign) {
                 let designJson: any = JSON.stringify(canvas.toJSON());
                 let thumbnail: any = canvas.toDataURL();
@@ -43,12 +42,12 @@ const Menubutton = (props:any) => {
                 let canvasColor: any = canvas.backgroundColor;
                 let canvasWidth:any = canvas.width;
                 let canvasHeight:any = canvas.height;
-                let id:any = titleTextRemoveSpace;
+                let id:any = isIdInput;
                 let canvasDesign = {
                     designJson,
                     thumbnail,
                     designId,
-                    name: setTitle,
+                    name: titleTextRemoveSpace,
                     liked:null,
                     canvasColor,
                     canvasWidth,
