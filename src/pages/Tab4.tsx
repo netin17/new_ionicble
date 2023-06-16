@@ -256,11 +256,19 @@ useEffect(()=>{
     console.log('Searching Keyword:::', query)
     
     let searchResult = canvases?.filter(canvase => canvase['name'] == query);
-    setcurrentCategory('all');
-    setSearchResult(searchResult)
-    setIsSearch(true);
-    console.log('Searching Result::',searchResult)
-    dismiss();
+
+    if(searchResult.length > 0){
+
+      setcurrentCategory('all');
+      setSearchResult(searchResult)
+      setIsSearch(true);
+      dismiss();
+
+    }else{
+      presentToast('top','No Record Found.')
+      dismiss();
+    }
+    
 
   }
 
