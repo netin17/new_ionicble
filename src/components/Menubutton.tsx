@@ -31,80 +31,70 @@ const Menubutton = (props:any) => {
             } 
         });
 
+        var setTitle = (document.getElementById('inputTitle') as HTMLInputElement).value;
+        let titleTextRemoveSpace = setTitle.replace(/^\s+|\s+$/gm,'');
+        
+        if(titleTextRemoveSpace){
 
-        var setTitle = (document.getElementById('inputTitle') as HTMLInputElement).value; 
-
-        if (isCanvasDesign) {
-            var setTitle = (document.getElementById('inputTitle') as HTMLInputElement).value; 
-
-            let designJson: any = JSON.stringify(canvas.toJSON());
-            let thumbnail: any = canvas.toDataURL();
-            let designId: any = Math.random();
-            let canvasColor: any = canvas.backgroundColor;
-            let canvasWidth:any = canvas.width;
-            let canvasHeight:any = canvas.height;
-            let id:any = isIdInput;
-            let canvasDesign = {
-                designJson,
-                thumbnail,
-                designId,
-                name: isTitleInput,
-                liked:null,
-                canvasColor,
-                canvasWidth,
-                canvasHeight,
-                categories: props?.selectedCategories.toString()
-            }
-            //let tempArray: any = [];
-            if(db){
-                if(typeof id != 'undefined'){
-
-                    await props?.updateCanvas(id,canvasDesign).then((result:any)=>{
-                                        
-                        history.push({pathname:'/tab4', state:{data:result}});
-    
-                    });   
-
-                    
+            if (isCanvasDesign) {
+                let designJson: any = JSON.stringify(canvas.toJSON());
+                let thumbnail: any = canvas.toDataURL();
+                let designId: any = Math.random();
+                let canvasColor: any = canvas.backgroundColor;
+                let canvasWidth:any = canvas.width;
+                let canvasHeight:any = canvas.height;
+                let id:any = titleTextRemoveSpace;
+                let canvasDesign = {
+                    designJson,
+                    thumbnail,
+                    designId,
+                    name: setTitle,
+                    liked:null,
+                    canvasColor,
+                    canvasWidth,
+                    canvasHeight,
+                    categories: props?.selectedCategories.toString()
                 }
-                               
+                if(db){
+                    if(typeof id != 'undefined'){
+                        await props?.updateCanvas(id,canvasDesign).then((result:any)=>{
+                            history.push({pathname:'/tab4', state:{data:result}});
+                        });   
+                    }
+                }
+    
+            } else {
+    
+                let designJson: any = JSON.stringify(canvas.toJSON());
+                let thumbnail: any = canvas.toDataURL();
+                let designId: any = Math.random();
+                let canvasColor: any = canvas.backgroundColor;
+                let canvasWidth:any = canvas.width;
+                let canvasHeight:any = canvas.height;
+                let canvasDesign = {
+                    designJson,
+                    thumbnail,
+                    designId,
+                    name: titleTextRemoveSpace,
+                    liked:null,
+                    canvasColor,
+                    canvasWidth,
+                    canvasHeight,
+                    categories: props?.selectedCategories.toString()
+                }
+                if(db){
+                    await props?.saveCanvas(canvasDesign).then((result:any)=>{
+                        history.push({pathname:'/tab4', state:{data:result}});
+                    });                          
+                }
             }
 
-        } else {
-
-            var setTitle = (document.getElementById('inputTitle') as HTMLInputElement).value; 
-            //console.log(isTitleInput);
-
-            let designJson: any = JSON.stringify(canvas.toJSON());
-            let thumbnail: any = canvas.toDataURL();
-            let designId: any = Math.random();
-            let canvasColor: any = canvas.backgroundColor;
-            let canvasWidth:any = canvas.width;
-            let canvasHeight:any = canvas.height;
-           
-            let canvasDesign = {
-                designJson,
-                thumbnail,
-                designId,
-                name: setTitle,
-                liked:null,
-                canvasColor,
-                canvasWidth,
-                canvasHeight,
-                categories: props?.selectedCategories.toString()
-            }
-            //let tempArray: any = [];
-            if(db){
-
-                await props?.saveCanvas(canvasDesign).then((result:any)=>{
-                                        
-                    history.push({pathname:'/tab4', state:{data:result}});
-
-                });                          
-                   
-            }
-           
+        }else{
+            presentToast('top','Kindly enter the title name.')
         }
+        
+
+       
         // presentToast('top','Design saved successfully')
         // canvas.clearHistory();
     }

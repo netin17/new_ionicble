@@ -286,6 +286,7 @@ useEffect(()=>{
       dismiss();
       setResult([...filter as []]);
      
+      setShorting('');
 
       
     }
@@ -308,12 +309,11 @@ useEffect(()=>{
       dismiss();
       setResult([...filter as []]);
      
-     
-      
+      setShorting('');
+           
     }
 
     if (shorting == 'A') {
-      //let filter = shortingArray.slice(0).reverse().map((element: unknown) => { return element; }); 
 
       let filter = shortingArray.sort(function(a:any,b:any) {
         
@@ -329,7 +329,7 @@ useEffect(()=>{
       dismiss();
       setResult([...filter as []]);
 
-      
+      setShorting('');
       
     }
 
@@ -348,6 +348,7 @@ useEffect(()=>{
     dismiss();
     setResult([...filter as []]);
     
+    setShorting('');
     }
    
 
